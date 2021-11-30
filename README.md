@@ -1,3 +1,3 @@
 # README
 
-- 11/30/21 c-sharp substitute teacher session.
+- c-sharp demo code.
