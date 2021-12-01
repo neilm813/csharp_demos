@@ -25,7 +25,27 @@ namespace FakeDiscord
             }
 
             GuildMembers.Add(newMember);
+            newMember.Guilds.Add(this);
+            newMember.SelectedGuild = this;
+
+            if (this.TextChannels.Count > 0)
+            {
+                newMember.SelectedTextChannel = this.TextChannels[0];
+            }
+
             Console.WriteLine($"{newMember.Username} has joined {Name} guild. There are now {GuildMembers.Count} guild members.");
+        }
+
+        public void PrintMembers()
+        {
+            List<string> usernames = new List<string>();
+
+            foreach (User guildMember in GuildMembers)
+            {
+                usernames.Add(guildMember.Username);
+            }
+
+            Console.WriteLine($"Users in {Name} guild: {String.Join(", ", usernames)}");
         }
 
         public override string ToString()
