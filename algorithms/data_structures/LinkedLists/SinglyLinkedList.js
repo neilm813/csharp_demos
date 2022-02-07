@@ -44,21 +44,39 @@ class SinglyLinkedList {
 
   /**
    * Determines if this list is empty.
-   * - Time: O(?).
-   * - Space: O(?).
+   * - Time: O(1) constant.
+   * - Space: O(1) constant.
    * @returns {boolean}
    */
-  isEmpty() {}
+   isEmpty() {
+    return this.head === null;
+  }
 
   /**
    * Creates a new node with the given data and inserts it at the back of
    * this list.
-   * - Time: O(?).
-   * - Space: O(?).
+   * - Time: O(n) linear, n = length of list.
+   * - Space: O(1) constant.
    * @param {any} data The data to be added to the new node.
    * @returns {SinglyLinkedList} This list.
    */
-  insertAtBack(data) {}
+  insertAtBack(data) {
+    const newBack = new Node(data);
+
+    if (this.isEmpty()) {
+      this.head = newBack;
+      return this;
+    }
+
+    let runner = this.head;
+
+    while (runner.next !== null) {
+      runner = runner.next;
+    }
+
+    runner.next = newBack;
+    return this;
+  }
 
   /**
    * Calls insertAtBack on each item of the given array.
