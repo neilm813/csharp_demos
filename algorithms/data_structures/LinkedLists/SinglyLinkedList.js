@@ -2,7 +2,7 @@
  * Class to represents a single item of a SinglyLinkedList that can be
  * linked to other Node instances to form a list of linked nodes.
  */
- class Node {
+class Node {
   /**
    * Constructs a new Node instance. Executed when the 'new' keyword is used.
    * @param {any} data The data to be added into this new instance of a Node.
@@ -41,6 +41,24 @@ class SinglyLinkedList {
   constructor() {
     this.head = null;
   }
+
+  /**
+   * Determines if this list is empty.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @returns {boolean}
+   */
+  isEmpty() {}
+
+  /**
+   * Creates a new node with the given data and inserts it at the back of
+   * this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {any} data The data to be added to the new node.
+   * @returns {SinglyLinkedList} This list.
+   */
+  insertAtBack(data) {}
 
   /**
    * Calls insertAtBack on each item of the given array.
@@ -86,12 +104,14 @@ const unorderedList = new SinglyLinkedList().seedFromArr([
 
 // node 4 connects to node 1, back to head
 const perfectLoopList = new SinglyLinkedList().seedFromArr([1, 2, 3, 4]);
-perfectLoopList.head.next.next.next = perfectLoopList.head;
+// perfectLoopList.head.next.next.next = perfectLoopList.head;
 
 // node 4 connects to node 2
 const loopList = new SinglyLinkedList().seedFromArr([1, 2, 3, 4]);
-loopList.head.next.next.next = loopList.head.next;
+// loopList.head.next.next.next = loopList.head.next;
 
 const sortedDupeList = new SinglyLinkedList().seedFromArr([
   1, 1, 1, 2, 3, 3, 4, 5, 5,
 ]);
+
+console.log(firstThreeList.toArr());
