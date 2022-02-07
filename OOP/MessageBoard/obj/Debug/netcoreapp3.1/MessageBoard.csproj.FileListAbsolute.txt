@@ -1,0 +1,13 @@
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\bin\Debug\netcoreapp3.1\MessageBoard.exe
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\bin\Debug\netcoreapp3.1\MessageBoard.deps.json
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\bin\Debug\netcoreapp3.1\MessageBoard.runtimeconfig.json
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\bin\Debug\netcoreapp3.1\MessageBoard.runtimeconfig.dev.json
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\bin\Debug\netcoreapp3.1\MessageBoard.dll
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\bin\Debug\netcoreapp3.1\MessageBoard.pdb
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\obj\Debug\netcoreapp3.1\MessageBoard.csprojAssemblyReference.cache
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\obj\Debug\netcoreapp3.1\MessageBoard.AssemblyInfoInputs.cache
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\obj\Debug\netcoreapp3.1\MessageBoard.AssemblyInfo.cs
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\obj\Debug\netcoreapp3.1\MessageBoard.csproj.CoreCompileInputs.cache
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\obj\Debug\netcoreapp3.1\MessageBoard.dll
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\obj\Debug\netcoreapp3.1\MessageBoard.pdb
+C:\Users\Neil\Documents\code\work\dojo\demos\csharp_demos\OOP\MessageBoard\obj\Debug\netcoreapp3.1\MessageBoard.genruntimeconfig.cache
