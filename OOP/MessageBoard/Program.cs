@@ -15,14 +15,24 @@ namespace MessageBoard
             int x = 5;
 
             // Every class becomes a data type.
-            Message message1 = new Message("test content.");
+            Person person1 = new Person("Liz", "G");
 
-            Person person1 = new Person("Anthony", "Do", 26);
-
-            Person person2 = new Person("Liz", "G");
+            User user1 = new User("TonyDo", "ad@gmail.com", "Anthony", "Do", 26);
 
             Console.WriteLine(person1);
-            Console.WriteLine(person2);
+            Console.WriteLine(user1);
+
+            Message message1 = new Message(user1, "test content.");
+
+            user1.SendMessage(new Message("blah test message"));
+            user1.SendMessage(new Message("test2"));
+
+
+
+            // Console.WriteLine(message1.Author);
+            // Console.WriteLine(user1.Messages[1].Content);
+
+            user1.PrintMessages();
         }
     }
 }

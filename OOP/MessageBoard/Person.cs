@@ -6,6 +6,12 @@ namespace MessageBoard
         public string LastName { get; set; }
         public int? Age { get; set; }
 
+        /* 
+        The default constructor is overridden if you create your own
+        constructors, but you can add it back in, in case you want to construct
+        an empty instance.
+        */
+        public Person() { }
         public Person(string firstName, string lastName)
         {
             FirstName = firstName;
@@ -17,7 +23,7 @@ namespace MessageBoard
 
         It isn't necessary if the first constructor had a default age param.
         */
-        public Person(string firstName, string lastName, int age)
+        public Person(string firstName, string lastName, int? age)
         {
             FirstName = firstName;
             LastName = lastName;
