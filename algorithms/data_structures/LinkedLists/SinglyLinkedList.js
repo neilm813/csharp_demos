@@ -43,12 +43,39 @@ class SinglyLinkedList {
   }
 
   /**
+   * Creates a new node with the given data and inserts that node at the front
+   * of this list.
+   * - Time: (?).
+   * - Space: (?).
+   * @param {any} data The data for the new node.
+   * @returns {SinglyLinkedList} This list.
+   */
+  insertAtFront(data) {}
+
+  /**
+   * Removes the first node of this list.
+   * - Time: (?).
+   * - Space: (?).
+   * @returns {any} The data from the removed node.
+   */
+  removeHead() {}
+
+  // EXTRA
+  /**
+   * Calculates the average of this list.
+   * - Time: (?).
+   * - Space: (?).
+   * @returns {number|NaN} The average of the node's data.
+   */
+  average() {}
+
+  /**
    * Determines if this list is empty.
    * - Time: O(1) constant.
    * - Space: O(1) constant.
    * @returns {boolean}
    */
-   isEmpty() {
+  isEmpty() {
     return this.head === null;
   }
 
