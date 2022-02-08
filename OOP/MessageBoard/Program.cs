@@ -30,6 +30,7 @@ namespace MessageBoard
 
             tony.SendMessage(stonks, "I saw elongated musket make a tweet, buy now!");
             tony.SendMessage(doggos, "Shibes are my favorite doggo.");
+            tony.SendMessage(doggos, "Shibes are STILL my favorite doggo.");
             liz.SendMessage(doggos, "My choco lab, Harley, is a good boi!");
 
             tony.SendMessage(learnToCode, "C# be like Confusion confusion = new Confusion();");
@@ -40,7 +41,7 @@ namespace MessageBoard
             tony.PrintMessages();
 
             doggos.Messages[0].Content = "new content";
-
+            Console.WriteLine($"Top Poster for Doggos: {doggos.TopPoster()}");
 
         }
     }

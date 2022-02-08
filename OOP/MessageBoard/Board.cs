@@ -13,5 +13,36 @@ namespace MessageBoard
             Name = name;
             Description = description;
         }
+
+        public User TopPoster()
+        {
+            User topUser = null;
+            Dictionary<User, int> userMessageFrequencyTable = new Dictionary<User, int>();
+            int maxMessageCount = 0;
+
+            foreach (Message message in Messages)
+            {
+                bool isUserInTable = userMessageFrequencyTable.ContainsKey(message.Author);
+
+                if (isUserInTable)
+                {
+                    userMessageFrequencyTable[message.Author] += 1;
+                }
+                else
+                {
+                    userMessageFrequencyTable[message.Author] = 1;
+                }
+
+                int updatedMessageCount = userMessageFrequencyTable[message.Author];
+
+                if (updatedMessageCount > maxMessageCount)
+                {
+                    maxMessageCount = updatedMessageCount;
+                    topUser = message.Author;
+                }
+            }
+
+            return topUser;
+        }
     }
 }
