@@ -17,12 +17,13 @@ namespace MessageBoard
             Email = email;
         }
 
-        public Message SendMessage(Message newMessage)
+        public Message SendMessage(Board board, string content)
         {
             // this refers to whichever User instance called SendMessage
             // e.g., user1.SendMessage, this = user1.
-            newMessage.Author = this;
+            Message newMessage = new Message(this, board, content);
             Messages.Add(newMessage);
+            board.Messages.Add(newMessage);
             return newMessage;
         }
 
