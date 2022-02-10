@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h2>Videos!</h2>
+  <a href="/">Home</a>
+
+  <h3>Here's a random number, for no reason: @ViewBag.RandomNumber</h3>
+
+  <div>
+    @foreach (string id in ViewBag.YoutubeVideoIds)
+    {
+      string note = "you can write more C# here before HTML";
+
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/@id" title="YouTube video player"
+      frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+    }
+  </div>
+</body>
+
+</html>
