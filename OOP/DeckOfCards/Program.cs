@@ -14,17 +14,16 @@ namespace DeckOfCards
 
                 [x] Next, create a class called "Deck"
                 [x] Give the Deck class a property called "cards" which is a list of Card objects.
-                [] When initializing the deck, make sure that it has a list of 52 unique cards as its "cards" property.
-                [] Give the Deck a deal method that selects the "top-most" card, removes it from the list of cards, and returns the Card.
-                [] Give the Deck a reset method that resets the cards property to contain the original 52 cards.
-                [] Give the Deck a shuffle method that randomly reorders the deck's cards.
+                [x] When initializing the deck, make sure that it has a list of 52 unique cards as its "cards" property.
+                [x] Give the Deck a deal method that selects the "top-most" card, removes it from the list of cards, and returns the Card.
+                [x] Give the Deck a reset method that resets the cards property to contain the original 52 cards.
+                [x] Give the Deck a shuffle method that randomly reorders the deck's cards.
 
-                [] Finally, create a class called "Player"
-                [] Give the Player class a name property.
-                [] Give the Player a hand property that is a List of type Card.
-                [] Give the Player a draw method of which draws a card from a deck, adds it to the player's hand and returns the Card.
-                [] Note this method will require reference to a deck object
-                [] Give the Player a discard method which discards the Card at the specified index from the player's hand and returns this Card or null if the index does not exist.
+                [x] Finally, create a class called "Player"
+                [x] Give the Player class a name property.
+                [x] Give the Player a hand property that is a List of type Card.
+                [x] Give the Player a draw method of which draws a card from a deck, adds it to the player's hand and returns the Card.
+                [x] Give the Player a discard method which discards the Card at the specified index from the player's hand and returns this Card or null if the index does not exist.
             */
 
             // Card testCard = new Card("Jack", "Hearts", 11);
@@ -37,8 +36,21 @@ namespace DeckOfCards
             // };
 
             Deck deck = new Deck();
+            Player player = new Player("Test Dude");
 
-            deck.Print();
+            // deck.Print();
+            deck.Shuffle();
+            // Console.WriteLine(deck.Deal());
+            // Console.WriteLine(deck.Deal());
+            // Console.WriteLine(deck.Deal());
+
+            Console.WriteLine(player.Draw(deck));
+            Console.WriteLine(player.Draw(deck));
+            Console.WriteLine(player.Draw(deck));
+            Console.WriteLine(player.Hand.Count);
+            Console.WriteLine(player.Discard(0));
+            Console.WriteLine(player.Hand.Count);
+
 
         }
     }
