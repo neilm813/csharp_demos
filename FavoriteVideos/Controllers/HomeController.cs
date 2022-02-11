@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FavoriteVideos.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FavoriteVideos.Controllers
@@ -15,28 +16,32 @@ namespace FavoriteVideos.Controllers
         [HttpGet("/videos")]
         public ViewResult Videos()
         {
-            // When we have a DB, this data would be requested here from the DB.
-            List<string> youtubeVideoIds = new List<string>()
-            {
-            "5qap5aO4i9A", "EHtsQ9thkIY", "0rBG9BAiiC4", "cCwiZdFz63w", "fb9-OzVuV6g", "-y8aKyi6-OQ", "kVaiWk7H7n0",
-            "UDA6Kd6uYqs", "eg9_ymCEAF8", "Q8vnqwtOf8E"
-            };
+            VideosView viewModel = new VideosView();
 
-            // Every method (action) has it's own ViewBag, they are NOT shared.
+            return View("Videos", viewModel);
+        }
 
-            // ViewBag is a dynamic data type, you can add new properties of 
-            // any data to it.
-            ViewBag.YoutubeVideoIds = youtubeVideoIds;
-            ViewBag.RandomNumber = new System.Random().Next();
+        /* 
+        <form> need 2 routes, the route to GET the page with the <form>
 
-            // The ViewBag doesn't need to be passed in to the HTML page
-            // it is automatically availale on the page.
-            return View("Videos");
+        and the route to process the <form> submission.
+        */
+        [HttpGet("/users/register")]
+        public IActionResult Register()
+        {
+            return View("Register");
+        }
+
+        [HttpPost("/users/process-registration")]
+        public IActionResult ProcessRegistration(User newUser)
+        {
+            // return View("Guest", newUser);
+            return RedirectToAction("Guest", newUser);
         }
 
         // Catch all not found route.
         [HttpGet("{**path}")]
-        public RedirectToActionResult Unknown(string path)
+        public IActionResult Unknown(string path)
         {
             Console.WriteLine("*****UNKNOWN ROUTE: " + path);
             return RedirectToAction("Index");

@@ -1,3 +1,16 @@
+@*
+  Specify what kind of data is being passed into this view from the controller.
+
+  Lowercase 'm' model is to specify the data type.
+  Uppercase 'M' Model is to use / access the data.
+*@
+
+@* Syntax 1 *@
+@* @model FavoriteVideos.Models.VideosView *@
+
+@* Syntax 2 - Requires Views/_ViewImports.cshtml file.*@
+@model VideosView
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,10 +25,10 @@
   <h2>Videos!</h2>
   <a href="/">Home</a>
 
-  <h3>Here's a random number, for no reason: @ViewBag.RandomNumber</h3>
+  <h3>Here's a random number, for no reason: @Model.RandomNumber</h3>
 
   <div>
-    @foreach (string id in ViewBag.YoutubeVideoIds)
+    @foreach (string id in Model.YoutubeVideoIds)
     {
       string note = "you can write more C# here before HTML";
 
