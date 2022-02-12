@@ -1,5 +1,7 @@
-@* This time the model is what the form on this page is creating. *@
-@model User
+@* Display one kind of data and create a different kind of data from the <form>
+  all with the same view model and no ViewBag
+*@
+@model RegisterView
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,20 +17,20 @@
   <h2>Register</h2>
 
   <h3>Lucky Numbers</h3>
-  @foreach (int luckyNumber in ViewBag.LuckyNumbers)
+  @foreach (int luckyNumber in Model.LuckyNumbers)
   {
     <span>@luckyNumber</span>
   }
 
-  <form action="/users/process-registration" method="POST">
+  <form action="/users/process-registration2" method="POST">
     <div>
       <label>First Name</label>
-      @* name="FirstName" MUST match the property name of the Model. *@
-      <input type="text" name="FirstName">
+      @* the User is NESTED as a property of the view model *@
+      <input type="text" name="NewUser.FirstName">
     </div>
     <div>
       <label>Last Name</label>
-      <input type="text" name="LastName">
+      <input type="text" name="NewUser.LastName">
     </div>
     <button>Submit</button>
   </form>

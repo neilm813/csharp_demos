@@ -9,5 +9,17 @@ namespace FavoriteVideos.Models
         {
             return FirstName + " " + LastName;
         }
+
+        /* 
+        If you create your own constructor you MUST add back in the
+        parameterless constructor because the ASP.NET framework
+        needs it.
+        */
+        public User() { }
+        public User(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+        }
     }
 }
