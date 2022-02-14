@@ -10,8 +10,8 @@ class Stack {
    * @returns {Stack} This new Stack instance is returned without having to
    *    explicitly write 'return' (implicit return).
    */
-  constructor() {
-    this.items = [];
+  constructor(items = []) {
+    this.items = items;
   }
 
   /**
@@ -21,7 +21,10 @@ class Stack {
    * @param {any} item The new item to be added to the top / back.
    * @returns {number} The new length of this stack.
    */
-  push(item) {}
+  push(item) {
+    this.items.push(item);
+    return this.size();
+  }
 
   /**
    * Removes the top / last item from this stack.
@@ -29,7 +32,9 @@ class Stack {
    * - Space: O(1) constant.
    * @returns {any} The removed item or undefined if this stack was empty.
    */
-  pop() {}
+  pop() {
+    return this.items.pop();
+  }
 
   /**
    * Retrieves the top / last item from this stack without removing it.
@@ -37,7 +42,9 @@ class Stack {
    * - Space: O(1) constant.
    * @returns {any} The top / last item of this stack.
    */
-  peek() {}
+  peek() {
+    return this.items[this.items.length - 1];
+  }
 
   /**
    * Returns whether or not this stack is empty.
@@ -45,7 +52,9 @@ class Stack {
    * - Space: O(1) constant.
    * @returns {boolean}
    */
-  isEmpty() {}
+  isEmpty() {
+    return this.items.length === 0;
+  }
 
   /**
    * Returns the size of this stack.
@@ -53,19 +62,19 @@ class Stack {
    * - Space: O(1) constant.
    * @returns {number} The length.
    */
-  size() {}
-}
-
-// Used for linked list stack:
-class Node {
-  constructor(data) {
-    this.data = data;
-    this.next = null;
+  size() {
+    return this.items.length;
   }
-}
 
-class LinkedListStack {
-  constructor() {
-    this.head = null;
+  /**
+   * Logs the items as a space separated string.
+   * - Time: O(n) linear.
+   * - Space: O(n) linear.
+   * @returns {string} The same string that is logged.
+   */
+  print() {
+    const str = this.items.join(' ');
+    console.log(str);
+    return str;
   }
 }
