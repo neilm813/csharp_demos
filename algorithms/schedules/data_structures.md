@@ -13,6 +13,7 @@
 - [Stacks and Queues Intro](../data_structures/StacksAndQueues.md)
 - [Stack](../data_structures/Stacks/Stack.js)
 
+## W1 Mon
 
 - A Stack is a LIFO (Last in First Out) data structure
 - Design a class to represent a stack using an array to store the items
