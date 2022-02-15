@@ -2,7 +2,13 @@
     ViewData["Title"] = "Home Page";
 }
 
+@model Pet
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="row">
+        <div class="col-md">Fullness: @Model.Fullness</div>
+        <div class="col-md">Happiness: @Model.Happiness</div>
+        <div class="col-md">Meals: @Model.Meals</div>
+        <div class="col-md">Energy: @Model.Energy</div>
+    </div>
 </div>

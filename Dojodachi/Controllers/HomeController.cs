@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Dojodachi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Dojodachi.Controllers
 {
@@ -18,9 +19,24 @@ namespace Dojodachi.Controllers
             _logger = logger;
         }
 
+        [HttpGet("")]
         public IActionResult Index()
         {
-            return View();
+
+            Pet sessionPet = HttpContext.Session.GetObjectFromJson<Pet>("Pet");
+
+            if (sessionPet == null)
+            {
+                // Instantiate with default values to set session for the
+                // first time.
+                Pet newPet = new Pet();
+                HttpContext.Session.SetObjectAsJson("Pet", newPet);
+
+                return View("Index", newPet);
+            }
+
+
+            return View("Index", sessionPet);
         }
 
         public IActionResult Privacy()
