@@ -11,4 +11,28 @@
         <div class="col-md">Meals: @Model.Meals</div>
         <div class="col-md">Energy: @Model.Energy</div>
     </div>
+
+    <div>
+        <h2 class="text-center">
+            @if (Model.State == "Win")
+            {
+                <span class="text-success">@Model.State</span>
+            }
+            else if (Model.State == "Lose")
+            {
+                <span class="text-danger">@Model.State</span>
+            }
+            else
+            {
+                <span class="text-warning">@Model.State</span>
+            }
+        </h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md">
+            <a asp-controller="Home" asp-action="Feed" class="btn btn-outline-primary btn-sm">Feed</a>
+            <a asp-controller="Home" asp-action="Play" class="btn btn-outline-primary btn-sm">Play</a>
+        </div>
+    </div>
 </div>

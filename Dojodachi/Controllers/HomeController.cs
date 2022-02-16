@@ -23,6 +23,7 @@ namespace Dojodachi.Controllers
         public IActionResult Index()
         {
 
+            // The Pet as a JSON string in session is converted back into a Pet instance.
             Pet sessionPet = HttpContext.Session.GetObjectFromJson<Pet>("Pet");
 
             if (sessionPet == null)
@@ -30,6 +31,8 @@ namespace Dojodachi.Controllers
                 // Instantiate with default values to set session for the
                 // first time.
                 Pet newPet = new Pet();
+
+                // newPet is converted into a JSON string
                 HttpContext.Session.SetObjectAsJson("Pet", newPet);
 
                 return View("Index", newPet);
@@ -37,6 +40,22 @@ namespace Dojodachi.Controllers
 
 
             return View("Index", sessionPet);
+        }
+
+        [HttpGet("/pet/feed")]
+        public IActionResult Feed()
+        {
+            Pet sessionPet = HttpContext.Session.GetObjectFromJson<Pet>("Pet");
+            sessionPet.Feed(HttpContext.Session);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("/pet/play")]
+        public IActionResult Play()
+        {
+            Pet sessionPet = HttpContext.Session.GetObjectFromJson<Pet>("Pet");
+            sessionPet.Play(HttpContext.Session);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
