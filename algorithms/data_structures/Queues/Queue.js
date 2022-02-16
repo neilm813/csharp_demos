@@ -1,3 +1,5 @@
+const Stack = require('../Stacks/Stack');
+
 /**
  * Class to represent a queue using an array which follows a FIFO
  * (First In First Out) order. New items are added to the back and items are
