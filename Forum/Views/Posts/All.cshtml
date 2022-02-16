@@ -1,0 +1,24 @@
+@*
+  @model lowercase m to specify the type of data passed in from controller.
+  @Model capitalized to access the passed-in data.
+*@
+@model List<Post>
+
+<h2 class="text-center">All Posts</h2>
+<hr>
+
+@foreach (Post post in Model)
+{
+  <div class="card shadow rounded mx-auto w-75 mb-3">
+    <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
+      @post.Topic
+    </h4>
+
+    <div class="card-body">
+      <p class="card-text">@post.Body</p>
+      <small class="text-muted"> Submitted on: @post.CreatedAt </small>
+    </div>
+
+    <img src="@post.ImgUrl" alt="related to post." class="card-img-bottom" />
+  </div>
+}
