@@ -26,7 +26,32 @@ class Queue {
    * - Space: O(?).
    * @returns {boolean} Whether the sum of the left and right halves is equal.
    */
-  isSumOfHalvesEqual() {}
+  isSumOfHalvesEqual() {
+    const len = this.size();
+
+    if (len % 2 !== 0) {
+      return false;
+    }
+
+    const halfLen = len / 2;
+    let leftSum = 0;
+    let rightSum = 0;
+    let count = 0;
+
+    while (count < len) {
+      const dequeued = this.dequeue();
+
+      if (count < halfLen) {
+        leftSum += dequeued;
+      } else {
+        rightSum += dequeued;
+      }
+
+      count++;
+      this.enqueue(dequeued);
+    }
+    return leftSum === rightSum;
+  }
 
   /**
    * Compares this queue to another given queue to see if they are equal.
