@@ -6,11 +6,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Forum.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Forum.Controllers
 {
     public class PostsController : Controller
     {
+        private int? uid
+        {
+            get
+            {
+                return HttpContext.Session.GetInt32("UserId");
+            }
+        }
+
+        private bool loggedIn
+        {
+            get
+            {
+                return uid != null;
+            }
+        }
+
         private ForumContext db;
         public PostsController(ForumContext context)
         {
