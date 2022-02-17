@@ -4,10 +4,11 @@
 @model Post
 
 <div class="container w-75 mx-auto">
-  <h2 class="text-center">New Post</h2>
+  <h2 class="text-center">Edit Post</h2>
 
   @* <form href="posts/create" method="POST"> *@
-  <form class="shadow p-3 rounded" asp-controller="Posts" asp-action="Create" method="POST">
+  <form class="shadow p-3 rounded" asp-controller="Posts" asp-action="Update" asp-route-postId="@Model.PostId"
+    method="POST">
 
     <div class="form-group">
       <label asp-for="Topic"></label>
@@ -28,6 +29,6 @@
       <input class="form-control" asp-for="ImgUrl">
     </div>
 
-    <button class="btn btn-success">Submit</button>
+    <button class="btn btn-success">Update</button>
   </form>
 </div>
