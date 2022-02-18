@@ -22,5 +22,13 @@ namespace Forum.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+        /* Relationships */
+
+        //  Foreign Keys
+        public int UserId { get; set; }
+
+        // Navigation Properties (related class instances) - MUST use .Include to access.
+        public User Author { get; set; } // 1 User : N Posts
     }
 }

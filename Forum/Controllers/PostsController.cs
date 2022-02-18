@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Forum.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Forum.Controllers
 {
@@ -43,6 +44,10 @@ namespace Forum.Controllers
         [HttpGet("/posts/new")]
         public IActionResult New()
         {
+            if (!loggedIn)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View("New");
         }
 
@@ -55,6 +60,7 @@ namespace Forum.Controllers
                 return View("New");
             }
 
+            newPost.UserId = (int)uid;
             // ModelState IS valid b/c the above return didn't happen.
             db.Posts.Add(newPost);
 
@@ -67,7 +73,23 @@ namespace Forum.Controllers
         [HttpGet("/posts")]
         public IActionResult All()
         {
-            List<Post> allPosts = db.Posts.ToList();
+            if (!loggedIn)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            List<Post> allPosts = db.Posts
+                /* 
+                The data given to .Include is ALWAYS the data type from the
+                table being queried (we are querying the Post table here).
+                */
+                .Include(p => p.Author) // Joins the related author to each Post.
+                .ToList();
+
+            /* The ORM created this query based on the above methods.
+            SELECT * FROM posts AS p
+            JOIN users AS u ON u.UserId = p.UserId
+            */
             return View("All", allPosts);
         }
 
@@ -81,10 +103,17 @@ namespace Forum.Controllers
         [HttpGet("/posts/{postId}")]
         public IActionResult Details(int postId)
         {
+            if (!loggedIn)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             // class properties are PascalCase, params are camelCase, hence
             //  class Property == param value
             //          PostId == postId
-            Post post = db.Posts.FirstOrDefault(p => p.PostId == postId);
+            Post post = db.Posts
+                .Include(p => p.Author)
+                .FirstOrDefault(p => p.PostId == postId);
 
             // In case the url was navigated to manually with a bad id.
             if (post == null)
@@ -112,9 +141,15 @@ namespace Forum.Controllers
         [HttpGet("/posts/{postId}/edit")]
         public IActionResult Edit(int postId)
         {
+            if (!loggedIn)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             Post post = db.Posts.FirstOrDefault(p => p.PostId == postId);
 
-            if (post == null)
+            // If uid doesn't match, user in session is NOT the author.
+            if (post == null || post.UserId != uid)
             {
                 return RedirectToAction("All");
             }

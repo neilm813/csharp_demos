@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Forum.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Forum.Controllers
 {
@@ -22,6 +23,11 @@ namespace Forum.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("UserId") != null)
+            {
+                return RedirectToAction("All", "Posts");
+            }
+
             return View("Index");
         }
 
@@ -50,7 +56,7 @@ namespace Forum.Controllers
             db.SaveChanges();
 
             HttpContext.Session.SetInt32("UserId", newUser.UserId);
-            HttpContext.Session.SetString("FullName", newUser.Fullname());
+            HttpContext.Session.SetString("FullName", newUser.FullName());
             return RedirectToAction("All", "Posts");
         }
 
@@ -92,7 +98,7 @@ namespace Forum.Controllers
             }
 
             HttpContext.Session.SetInt32("UserId", dbUser.UserId);
-            HttpContext.Session.SetString("FullName", dbUser.Fullname());
+            HttpContext.Session.SetString("FullName", dbUser.FullName());
             return RedirectToAction("All", "Posts");
         }
 
@@ -101,6 +107,16 @@ namespace Forum.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet("/users/{userId}")]
+        public IActionResult Details(int userId)
+        {
+            User user = db.Users
+                .Include(u => u.Posts)
+                .FirstOrDefault(u => u.UserId == userId);
+
+            return View("Details", user);
         }
 
         public IActionResult Privacy()

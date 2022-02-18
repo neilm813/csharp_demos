@@ -35,7 +35,7 @@
                             <li class="nav-item">
                                 <form asp-controller="Home" asp-action="Logout">
                                     <button class="btn btn-link">
-                                        Logout (@Context.Session.GetString("FullName"))
+                                        Logout - @Context.Session.GetString("FullName")
                                     </button>
                                 </form>
                             </li>

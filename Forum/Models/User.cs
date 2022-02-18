@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -36,9 +37,15 @@ namespace Forum.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
+        /* Relationships */
+        //  Foreign Keys
+
+        // Navigation Properties (related class instances) - MUST use .Include to access.
+        public List<Post> Posts { get; set; } // 1 User : N posts
+
 
         // Methods are not added to the DB.
-        public string Fullname()
+        public string FullName()
         {
             return FirstName + " " + LastName;
         }
