@@ -2,44 +2,25 @@
   @model lowercase m to specify the type of data passed in from controller.
   @Model capitalized to access the passed-in data.
 *@
-@model Post
+@model List<Post>
 
 <h2 class="text-center">All Posts</h2>
-
-<div class="container w-50 mx-auto">
-  <h2 class="text-center">New Post</h2>
-
-  <form class="shadow p-3 rounded" asp-controller="Posts" asp-action="Create" method="POST">
-
-    <div class="form-group">
-      <label asp-for="Topic"></label>
-      <span asp-validation-for="Topic" class="text-danger font-weight-bold">
-      </span>
-      <input class="form-control" asp-for="Topic">
-    </div>
-
-    <div class="form-group">
-      <label asp-for="Body"></label>
-      <span asp-validation-for="Body" class="text-danger font-weight-bold">
-      </span>
-      <textarea class="form-control" asp-for="Body"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label asp-for="ImgUrl"></label>
-      <input class="form-control" asp-for="ImgUrl">
-    </div>
-
-    <button class="btn btn-success">Submit</button>
-  </form>
-</div>
 <hr>
 
-@foreach (Post post in ViewBag.Posts)
-{
-  bool alreadyLiked = post.Likes
-  .Any(like => like.UserId == Context.Session.GetInt32("UserId"));
+@{
+  Post newPost = new Post();
+  @* Here you can pre-set info on newPost before passing it to the partial
 
+    Such as a Foreign Key.
+
+    newPost.PropName = value;
+  *@
+}
+<partial name="_New" model="@newPost"></partial>
+<hr>
+
+@foreach (Post post in Model)
+{
   <div class="card shadow rounded mx-auto w-75 mb-3">
     <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
       @*
@@ -84,28 +65,6 @@
 
       <div class="row justify-content-center mt-2">
         <small>Updated on @post.UpdatedAt</small>
-      </div>
-
-      <div class="row justify-content-center mt-2">
-
-        @*
-          This form doesn't need it's own model b/c there are no input boxes,
-          it's just an Id route parameter on the <form> tag.
-        *@
-        <form asp-controller="Posts" asp-action="Like" asp-route-postId="@post.PostId">
-          <button class="btn btn-outline-info btn-sm">
-            @if (alreadyLiked)
-            {
-              <span>Unlike</span>
-            }
-            else
-            {
-              <span>Like</span>
-            }
-            @* Parenthesis are just to display parenthesis as text *@
-            <span> (@post.Likes.Count)</span>
-          </button>
-        </form>
       </div>
     </div>
   </div>

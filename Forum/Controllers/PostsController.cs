@@ -70,6 +70,11 @@ namespace Forum.Controllers
             return RedirectToAction("All");
         }
 
+        /**************************************************************
+        All page that displays all posts AND has a <form> to create a new post.
+        Display data from ViewBag
+        Use @model for the <form>.
+        */
         [HttpGet("/posts")]
         public IActionResult All()
         {
@@ -78,20 +83,77 @@ namespace Forum.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            List<Post> allPosts = db.Posts
+            ViewBag.Posts = db.Posts
                 /* 
                 The data given to .Include is ALWAYS the data type from the
                 table being queried (we are querying the Post table here).
                 */
                 .Include(p => p.Author) // Joins the related author to each Post.
+                .Include(p => p.Likes)
                 .ToList();
 
             /* The ORM created this query based on the above methods.
             SELECT * FROM posts AS p
             JOIN users AS u ON u.UserId = p.UserId
             */
-            return View("All", allPosts);
+
+            return View("All");
         }
+
+        /**************************************************************
+        All page that only displays all posts
+        */
+        // [HttpGet("/posts")]
+        // public IActionResult All()
+        // {
+        //     if (!loggedIn)
+        //     {
+        //         return RedirectToAction("Index", "Home");
+        //     }
+
+        //     List<Post> allPosts = db.Posts
+        //         /* 
+        //         The data given to .Include is ALWAYS the data type from the
+        //         table being queried (we are querying the Post table here).
+        //         */
+        //         .Include(p => p.Author) // Joins the related author to each Post.
+        //         .ToList();
+
+        //     /* The ORM created this query based on the above methods.
+        //     SELECT * FROM posts AS p
+        //     JOIN users AS u ON u.UserId = p.UserId
+        //     */
+        //     return View("All", allPosts);
+        // }
+
+        /**************************************************************
+        All page that displays all posts AND has a <form> to create a new post.
+        Display data with ViewModel
+        Use <partial> view for the <form> so it ALSO can use View Model..
+        */
+        // [HttpGet("/posts")]
+        // public IActionResult All()
+        // {
+        //     if (!loggedIn)
+        //     {
+        //         return RedirectToAction("Index", "Home");
+        //     }
+
+        //     List<Post> posts = db.Posts
+        //         /* 
+        //         The data given to .Include is ALWAYS the data type from the
+        //         table being queried (we are querying the Post table here).
+        //         */
+        //         .Include(p => p.Author) // Joins the related author to each Post.
+        //         .ToList();
+
+        //     /* The ORM created this query based on the above methods.
+        //     SELECT * FROM posts AS p
+        //     JOIN users AS u ON u.UserId = p.UserId
+        //     */
+
+        //     return View("All", posts);
+        // }
 
         /* 
         <a 
@@ -112,7 +174,12 @@ namespace Forum.Controllers
             //  class Property == param value
             //          PostId == postId
             Post post = db.Posts
+                // HOVER over the lambda param to see it's data type
+                // .Include lambda param is ALWAYS data from the table queried.
                 .Include(p => p.Author)
+                .Include(p => p.Likes)
+                // .ThenInclude lambda param is ALWAYS the data that was just included above.
+                .ThenInclude(like => like.User)
                 .FirstOrDefault(p => p.PostId == postId);
 
             // In case the url was navigated to manually with a bad id.
@@ -195,6 +262,41 @@ namespace Forum.Controllers
             // new dict to pass param values (args) to Details method.
             //                                 new { paramName1 = value1, paramName2 = value2 }
             return RedirectToAction("Details", new { postId = postId });
+        }
+
+        /* 
+        Because we only needed an id, the <form> didn't need it's own model,
+        we have all the info we need from the URL parameters.
+        */
+        [HttpPost("/posts/{postId}/like")]
+        public IActionResult Like(int postId)
+        {
+            if (!loggedIn)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            UserPostLike existingLike = db.UserPostLikes
+                .FirstOrDefault(like => like.PostId == postId && (int)uid == like.UserId);
+
+            if (existingLike == null)
+            {
+                UserPostLike like = new UserPostLike()
+                {
+                    PostId = postId,
+                    UserId = (int)uid
+                };
+
+                db.UserPostLikes.Add(like);
+            }
+            else
+            {
+                db.UserPostLikes.Remove(existingLike);
+            }
+
+
+            db.SaveChanges();
+            return RedirectToAction("All");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

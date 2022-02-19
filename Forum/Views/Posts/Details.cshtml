@@ -14,4 +14,16 @@
   {
     <img src="@Model.ImgUrl" alt="related to post." class="card-img-bottom" />
   }
+
+  <div class="card-footer">
+    <h3>@Model.Likes.Count Likes</h3>
+    @foreach (UserPostLike like in Model.Likes)
+    {
+      @* This will leave a dangling comma. *@
+      <span>@like.User.FullName(), </span>
+    }
+
+    <h3>@Model.Likes.Count Likes with String.Join</h3>
+    @String.Join(", ", Model.Likes.Select(like => like.User.FullName()))
+  </div>
 </div>

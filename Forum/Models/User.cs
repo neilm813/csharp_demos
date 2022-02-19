@@ -42,6 +42,7 @@ namespace Forum.Models
 
         // Navigation Properties (related class instances) - MUST use .Include to access.
         public List<Post> Posts { get; set; } // 1 User : N posts
+        public List<UserPostLike> Likes { get; set; } // Many to Many likes.
 
 
         // Methods are not added to the DB.

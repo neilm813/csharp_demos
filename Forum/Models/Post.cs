@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Forum.Models
@@ -30,5 +31,6 @@ namespace Forum.Models
 
         // Navigation Properties (related class instances) - MUST use .Include to access.
         public User Author { get; set; } // 1 User : N Posts
+        public List<UserPostLike> Likes { get; set; } // Many to Many likes.
     }
 }

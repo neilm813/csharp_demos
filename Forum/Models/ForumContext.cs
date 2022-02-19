@@ -11,6 +11,7 @@ namespace Forum.Models
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserPostLike> UserPostLikes { get; set; }
         // public DbSet<Widget> Widgets { get; set; }
         // public DbSet<Item> Items { get; set; }
     }
