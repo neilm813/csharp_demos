@@ -147,3 +147,5 @@ twoLevelTree.root.right = new BSTNode(15);
 //   .insert(44)
 //   .insert(66)
 //   .insert(90);
+
+twoLevelTree.print();
