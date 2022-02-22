@@ -8,7 +8,11 @@ namespace TripPlanner.Models
         public int TripId { get; set; }
 
         [Required]
-        [MinLength(2, ErrorMessage = "must be at least {0} characters.")]
+        /* 
+        {0} will insert the property name into the error message, {1} inserts 
+        the min length value.
+        */
+        [MinLength(2, ErrorMessage = "must be at least {1} characters.")]
         public string Name { get; set; }
 
         [Required]
