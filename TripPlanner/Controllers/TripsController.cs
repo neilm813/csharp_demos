@@ -39,7 +39,10 @@ namespace TripPlanner.Controllers
         [HttpGet("/trips/all")]
         public IActionResult All()
         {
-            return View("All");
+            List<Trip> trips = db.Trips
+                .Include(t => t.CreatedBy)
+                .ToList();
+            return View("All", trips);
         }
 
         [HttpGet("/trips/new")]
@@ -51,6 +54,26 @@ namespace TripPlanner.Controllers
             }
 
             return View("New");
+        }
+
+        [HttpGet("/trips/{tripId}")]
+        public IActionResult Details(int tripId)
+        {
+            if (!loggedIn)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            Trip trip = db.Trips
+                .Include(t => t.CreatedBy)
+                .FirstOrDefault(t => t.TripId == tripId);
+
+            if (trip == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            return View("Details", trip);
         }
 
         [HttpPost("/trips/create")]

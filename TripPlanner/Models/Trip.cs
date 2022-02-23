@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TripPlanner.Models
 {
     public class Trip
     {
+        [Key]
         public int TripId { get; set; }
 
         [Required]
@@ -33,5 +35,6 @@ namespace TripPlanner.Models
 
         // Navigation Properties (related class instances) - MUST use .Include to access.
         public User CreatedBy { get; set; }
+        public List<TripDestination> TripDestinations { get; set; } // This trip can have many destinations (Many to Many)
     }
 }

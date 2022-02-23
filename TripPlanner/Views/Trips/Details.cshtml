@@ -1,0 +1,24 @@
+@model Trip
+
+@{
+  @* Alternative to use Date.Value below, use the null coalescing operator (similar to a ternary)
+    to put the Date into a non nullable datetime if it's not null, otherwise
+    the current date will be added to the var.
+  *@
+  DateTime date = Model.Date ?? DateTime.Now;
+}
+
+<div class="container w-75 mx-auto">
+  <h2 class="text-center">@Model.Name</h2>
+  <small>Created by - @Model.CreatedBy.FullName()</small>
+  <p class="mt-2">
+    @if (Model.Date != null)
+    {
+      @* .Value is needed here b/c date is nullable and ToString was complaining. *@
+      <span>@Model.Date.Value.ToString("MM/dd/yyyy") - </span>
+      @* <span>@date.ToString("MM/dd/yyyy") - </span> *@
+
+    }
+    @Model.Description
+  </p>
+</div>

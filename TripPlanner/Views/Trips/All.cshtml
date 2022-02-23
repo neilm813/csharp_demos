@@ -1,1 +1,20 @@
-<h2>All Trips</h2>
+@model List<Trip>
+
+<div class="container w-75 mx-auto">
+  <h2 class="text-center">All Trips</h2>
+
+  @foreach (Trip trip in Model)
+  {
+    <div class="card shadow rounded mx-auto w-75 mb-3">
+      <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
+        <a asp-controller="Trips" asp-action="Details" asp-route-tripId="@trip.TripId">
+          @trip.Name
+        </a>
+      </h4>
+
+      <div class="card-body">
+        <small>Created by - @trip.CreatedBy.FullName()</small>
+        <p class="card-text mt-2">@trip.Description</p>
+      </div>
+    </div>
+  }

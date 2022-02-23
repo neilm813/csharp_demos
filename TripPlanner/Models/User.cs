@@ -41,7 +41,8 @@ namespace TripPlanner.Models
         //  Foreign Keys
 
         // Navigation Properties (related class instances) - MUST use .Include to access.
-        public List<Trip> CreatedTrips { get; set; }
+        public List<Trip> CreatedTrips { get; set; } // 1 User : Many submitted trips.
+        public List<DestinationMedia> CreatedDestinationMedias { get; set; } // 1 User : Many submitted Destinations.
 
 
         // Methods are not added to the DB.
