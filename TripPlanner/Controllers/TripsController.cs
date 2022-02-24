@@ -116,6 +116,36 @@ namespace TripPlanner.Controllers
             return RedirectToAction("Details", new { tripId = tripId });
         }
 
+        // Removing a many to many relationship.
+        [HttpPost("/trips/{tripId}/destinations/{destinationMediaId}/remove-destination")]
+        public IActionResult RemoveDestination(int tripId, int destinationMediaId)
+        {
+            TripDestination existingTripDestination = db.TripDestinations
+                .FirstOrDefault(td => td.TripId == tripId && td.DestinationMediaId == destinationMediaId);
+
+            if (existingTripDestination != null)
+            {
+                db.TripDestinations.Remove(existingTripDestination);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Details", new { tripId = tripId });
+        }
+
+        [HttpPost("/trips/{tripId}/delete")]
+        public IActionResult Delete(int tripId)
+        {
+            Trip trip = db.Trips.FirstOrDefault(t => t.TripId == tripId);
+
+            if (trip != null && uid == trip.UserId)
+            {
+                db.Trips.Remove(trip);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("All");
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

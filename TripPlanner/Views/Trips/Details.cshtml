@@ -6,10 +6,17 @@
     the current date will be added to the var.
   *@
   DateTime date = Model.Date ?? DateTime.Now;
+  bool isTripCreator = Model.UserId == Context.Session.GetInt32("UserId");
 }
 
 <div class="container w-75 mx-auto">
   <h2 class="text-center">@Model.Name</h2>
+  @if (isTripCreator)
+  {
+    <form asp-controller="Trips" asp-action="Delete" asp-route-tripId="@Model.TripId">
+      <button class="btn btn-sm btn-outline-danger">Delete Trip</button>
+    </form>
+  }
   <small>Created by - @Model.CreatedBy.FullName()</small>
   <p class="mt-2">
     @if (Model.Date != null)
@@ -34,6 +41,8 @@
 
     @foreach (TripDestination tripDestination in Model.TripDestinations)
     {
+      bool isDestinationCreator = tripDestination.Destination.UserId == Context.Session.GetInt32("UserId");
+
       <div class="mt-2">
         <hr>
         <h2>@tripDestination.Destination.Location</h2>
@@ -55,6 +64,25 @@
           <iframe src="@tripDestination.Destination.Src" width="100%" height="800" style="border:0;" allowfullscreen=""
         loading="lazy"></iframe>
         }
+
+        <div class="row justify-content-center mt-2">
+          @if (isTripCreator)
+          {
+            <div class="col-md-1 mr-1">
+              <form asp-controller="Trips" asp-action="RemoveDestination" asp-route-tripId="@Model.TripId"
+            asp-route-destinationMediaId="@tripDestination.DestinationMediaId" method="POST">
+                <button class="btn btn-sm btn-outline-warning">Remove</button>
+              </form>
+            </div>
+          }
+
+          <div class="col-md-1">
+
+            <a asp-controller="DestinationMedias" asp-action="Edit"
+            asp-route-destinationMediaId="@tripDestination.DestinationMediaId"
+            class="btn btn-sm btn-outline-warning">Edit</a>
+          </div>
+        </div>
       </div>
     }
   </partial>
