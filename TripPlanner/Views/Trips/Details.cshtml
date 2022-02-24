@@ -21,4 +21,41 @@
     }
     @Model.Description
   </p>
+
+  @{
+    TripDestination tripDestinationRelationship = new TripDestination()
+    {
+      TripId = Model.TripId
+    };
+  }
+  <partial name="_AddDestination" model="@tripDestinationRelationship">
+
+    @* Display all added destinations *@
+
+    @foreach (TripDestination tripDestination in Model.TripDestinations)
+    {
+      <div class="mt-2">
+        <hr>
+        <h2>@tripDestination.Destination.Location</h2>
+        <p>@tripDestination.Destination.ShortDescription</p>
+
+        @if (tripDestination.Destination.Type == "Image")
+        {
+          <img class="shadow-lg rounded" width="100%" src="@tripDestination.Destination.Src"
+        alt="@tripDestination.Destination.Location : @tripDestination.Destination.ShortDescription">
+        }
+        else if (tripDestination.Destination.Type == "Youtube Embed")
+        {
+          <iframe width="100%" height="800" src="@tripDestination.Destination.Src" title="YouTube video player"
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+        }
+        else
+        {
+          <iframe src="@tripDestination.Destination.Src" width="100%" height="800" style="border:0;" allowfullscreen=""
+        loading="lazy"></iframe>
+        }
+      </div>
+    }
+  </partial>
 </div>

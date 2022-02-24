@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TripPlanner.Models
 {
-
     public class DestinationMedia
     {
         public int DestinationMediaId { get; set; }

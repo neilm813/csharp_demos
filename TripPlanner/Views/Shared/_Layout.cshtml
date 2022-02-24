@@ -24,10 +24,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Trips" asp-action="New">New</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Trips" asp-action="New">New
+                                Trip</a>
                         </li>
-                       <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Trips" asp-action="All">All Trips</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="DestinationMedias"
+                                asp-action="New">New Destination</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Trips" asp-action="All">All
+                                Trips</a>
                         </li>
 
                         @if (Context.Session.GetInt32("UserId") != null)

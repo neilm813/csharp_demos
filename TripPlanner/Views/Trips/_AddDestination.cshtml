@@ -1,0 +1,26 @@
+@*
+  The ViewBag here refers to the ViewBag of the page that this partial is
+  rendered into.
+*@
+
+@*
+  This form is for created a new many to many relationship, so the model is
+  the many to many table so the destination id can be filled in.
+*@
+@model TripDestination
+
+<div class="border rounded p-3">
+  <form asp-controller="Trips" asp-action="AddDestination" asp-route-tripId="@Model.TripId">
+    <div class="form-group">
+      <p>Add Destination</p>
+      <select class="form-control" asp-for="DestinationMediaId">
+        @foreach (DestinationMedia destination in ViewBag.DestinationsToAdd)
+        {
+          <option value="@destination.DestinationMediaId">@destination.Location</option>
+        }
+      </select>
+    </div>
+
+    <button class="btn btn-sm btn-outline-info">Add</button>
+  </form>
+</div>

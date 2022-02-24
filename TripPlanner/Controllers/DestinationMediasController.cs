@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TripPlanner.Controllers
 {
-    public class TripsController : Controller
+    public class DestinationMediasController : Controller
     {
         private int? uid
         {
@@ -31,12 +31,12 @@ namespace TripPlanner.Controllers
         }
 
         private TripPlannerContext db;
-        public TripsController(TripPlannerContext context)
+        public DestinationMediasController(TripPlannerContext context)
         {
             db = context;
         }
 
-        [HttpGet("/trips/all")]
+        [HttpGet("/destinations/all")]
         public IActionResult All()
         {
             if (!loggedIn)
@@ -44,13 +44,12 @@ namespace TripPlanner.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            List<Trip> trips = db.Trips
-                .Include(t => t.CreatedBy)
+            List<DestinationMedia> destinations = db.DestinationMedias
                 .ToList();
-            return View("All", trips);
+            return View("All", destinations);
         }
 
-        [HttpGet("/trips/new")]
+        [HttpGet("/destinations/new")]
         public IActionResult New()
         {
             if (!loggedIn)
@@ -61,34 +60,27 @@ namespace TripPlanner.Controllers
             return View("New");
         }
 
-        [HttpGet("/trips/{tripId}")]
-        public IActionResult Details(int tripId)
+        [HttpGet("/destinations/{destinationMediaId}")]
+        public IActionResult Details(int destinationMediaId)
         {
             if (!loggedIn)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            Trip trip = db.Trips
-                .Include(t => t.CreatedBy)
-                .Include(t => t.TripDestinations)
-                // .ThenInclude is given what was just included to then include something from that.
-                // Used for displaying data from a many to many navigation property
-                .ThenInclude(tripDestination => tripDestination.Destination)
-                .FirstOrDefault(t => t.TripId == tripId);
+            DestinationMedia destination = db.DestinationMedias
+                .FirstOrDefault(dm => dm.DestinationMediaId == destinationMediaId);
 
-            if (trip == null)
+            if (destination == null)
             {
                 return RedirectToAction("All");
             }
 
-            ViewBag.DestinationsToAdd = db.DestinationMedias.ToList();
-
-            return View("Details", trip);
+            return View("Details", destination);
         }
 
-        [HttpPost("/trips/create")]
-        public IActionResult Create(Trip newTrip)
+        [HttpPost("/destinations/create")]
+        public IActionResult Create(DestinationMedia newDestination)
         {
             if (ModelState.IsValid == false)
             {
@@ -96,24 +88,10 @@ namespace TripPlanner.Controllers
                 return View("New");
             }
 
-            newTrip.UserId = (int)uid;
-            db.Trips.Add(newTrip);
+            newDestination.UserId = (int)uid;
+            db.DestinationMedias.Add(newDestination);
             db.SaveChanges();
-            return RedirectToAction("Details", new { tripId = newTrip.TripId });
-        }
-
-        [HttpPost("/trips/{tripId}/add-destination")]
-        public IActionResult AddDestination(int tripId, TripDestination newTripDestination)
-        {
-            /* 
-            newTripDestination comes with the selected DestinationMediaId from
-            <select> menu and just needs the TripId URL param to be added.
-            */
-
-            newTripDestination.TripId = tripId;
-            db.TripDestinations.Add(newTripDestination);
-            db.SaveChanges();
-            return RedirectToAction("Details", new { tripId = tripId });
+            return RedirectToAction("Details", new { destinationMediaId = newDestination.DestinationMediaId });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
