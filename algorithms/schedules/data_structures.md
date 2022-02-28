@@ -80,4 +80,8 @@
 
 - [Binary Search Tree Notes](../data_structures/BinaryTrees/BinarySearchTree.md)
 
+---
 
+## Week 4 - Min Heap & Linked Lists Part 2
+
+### W4 Mon - [SinglyLinkedList](../data_structures/LinkedLists/SinglyLinkedList.js)
