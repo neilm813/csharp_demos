@@ -73,6 +73,25 @@ class BinarySearchTree {
   toArrPostorder(node = this.root, vals = []) {}
 
   /**
+   * BFS order: horizontal rows top-down left-to-right.
+   * Converts this BST into an array following Breadth First Search order.
+   * Example on the fullTree var:
+   * [25, 15, 50, 10, 22, 35, 70, 4, 12, 18, 24, 31, 44, 66, 90]
+   * @param {Node} current The current node during the traversal of this tree.
+   * @returns {Array<number>} The data of all nodes in BFS order.
+   */
+  toArrLevelorder(current = this.root) {}
+
+  /**
+   * Recursively counts the total number of nodes in this tree.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {Node} node The current node during the traversal of this tree.
+   * @returns {number} The total number of nodes.
+   */
+  size(node = this.root) {}
+
+  /**
    * Inserts a new node with the given newVal in the right place to preserver
    * the order of this tree.
    * - Time: O(h) linear, h = height of tree because the new node may have to
