@@ -43,11 +43,20 @@ class BinarySearchTree {
    * Converts this BST into an array following Depth First Search preorder.
    * Example on the fullTree var:
    * [25, 15, 10, 4, 12, 22, 18, 24, 50, 35, 31, 44, 70, 66, 90]
-   * @param {Node} node The current node during the traversal of this tree.
+   * - Time: O(n) linear, every node is visited.
+   * - Space: O(h + n) linear due to the call stack + vals array.
+   * @param {BSTNode} node The current node during the traversal of this tree.
    * @param {Array<number>} vals The data that has been visited so far.
    * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
    */
-  toArrPreorder(node = this.root, vals = []) {}
+  toArrPreorder(node = this.root, vals = []) {
+    if (node) {
+      vals.push(node.data);
+      this.toArrPreorder(node.left, vals);
+      this.toArrPreorder(node.right, vals);
+    }
+    return vals;
+  }
 
   /**
    * DFS Inorder: (Left, CurrNode, Right)
@@ -55,41 +64,152 @@ class BinarySearchTree {
    * See debugger call stack to help understand the recursion.
    * Example on the fullTree var:
    * [4, 10, 12, 15, 18, 22, 24, 25, 31, 35, 44, 50, 66, 70, 90]
-   * @param {Node} node The current node during the traversal of this tree.
+   * - Time: O(n) linear, every node is visited.
+   * - Space: O(h + n) linear due to the call stack + vals array.
+   * @param {BSTNode} node The current node during the traversal of this tree.
    * @param {Array<number>} vals The data that has been visited so far.
    * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
    */
-  toArrInorder(node = this.root, vals = []) {}
+  toArrInorder(node = this.root, vals = []) {
+    if (node) {
+      this.toArrInorder(node.left, vals);
+      vals.push(node.data);
+      this.toArrInorder(node.right, vals);
+    }
+    return vals;
+  }
+
+  /**
+   * DFS Inorder: (Left, CurrNode, Right) using a stack instead of the recursive
+   * call stack.
+   * Converts this BST into an array following Depth First Search inorder.
+   * Example on the fullTree var:
+   * [4, 10, 12, 15, 18, 22, 24, 25, 31, 35, 44, 50, 66, 70, 90]
+   * - Time: O(n) linear.
+   * - Space: O(h + n) linear due to the stack + the vals array.
+   * @param {BSTNode} node The current node during the traversal of this tree.
+   * @returns {Array<number>} All node's data in DFS Preorder.
+   */
+  toArrInorderNonRecursive(node = this.root) {
+    let current = node;
+    const stack = [];
+    const vals = [];
+
+    while (true) {
+      if (current !== null) {
+        stack.push(current);
+        current = current.left;
+      } else if (stack.length > 0) {
+        current = stack.pop();
+        vals.push(current.data);
+        current = current.right;
+      } else {
+        break;
+      }
+    }
+    return vals;
+  }
 
   /**
    * DFS Postorder (Left, Right, CurrNode)
    * Converts this BST into an array following Depth First Search postorder.
    * Example on the fullTree var:
    * [4, 12, 10, 18, 24, 22, 15, 31, 44, 35, 66, 90, 70, 50, 25]
-   * @param {Node} node The current node during the traversal of this tree.
+   * - Time: O(n) linear, every node is visited.
+   * - Space: O(h + n) linear due to the call stack + vals array.
+   * @param {BSTNode} node The current node during the traversal of this tree.
    * @param {Array<number>} vals The data that has been visited so far.
    * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
    */
-  toArrPostorder(node = this.root, vals = []) {}
+  toArrPostorder(node = this.root, vals = []) {
+    if (node) {
+      this.toArrPostorder(node.left, vals);
+      this.toArrPostorder(node.right, vals);
+      vals.push(node.data);
+    }
+    return vals;
+  }
 
   /**
    * BFS order: horizontal rows top-down left-to-right.
    * Converts this BST into an array following Breadth First Search order.
    * Example on the fullTree var:
    * [25, 15, 50, 10, 22, 35, 70, 4, 12, 18, 24, 31, 44, 66, 90]
-   * @param {Node} current The current node during the traversal of this tree.
+   * - Time: O(n) linear, every node is visited.
+   * - Space: O(h + n) linear due to the queue + vals array.
+   * @param {BSTNode} current The current node during the traversal of this tree.
    * @returns {Array<number>} The data of all nodes in BFS order.
    */
-  toArrLevelorder(current = this.root) {}
+  toArrLevelorder(current = this.root) {
+    const queue = [];
+    const vals = [];
+
+    if (current) {
+      queue.push(current);
+    }
+
+    // other tree structures have more than a left and a right, so children could be looped over and enqueued
+    while (queue.length > 0) {
+      const dequeuedNode = queue.shift();
+      vals.push(dequeuedNode.data);
+
+      if (dequeuedNode.left) {
+        queue.push(dequeuedNode.left);
+      }
+
+      if (dequeuedNode.right) {
+        queue.push(dequeuedNode.right);
+      }
+    }
+    return vals;
+  }
 
   /**
    * Recursively counts the total number of nodes in this tree.
-   * - Time: O(?).
-   * - Space: O(?).
-   * @param {Node} node The current node during the traversal of this tree.
+   * - Time: O(n) linear, n = number of nodes.
+   * - Space: O(h) linear due to the call stack.
+   * @param {BSTNode} node The current node during the traversal of this tree.
    * @returns {number} The total number of nodes.
    */
-  size(node = this.root) {}
+  size(node = this.root) {
+    if (!node) {
+      return 0;
+    }
+    // Translates into something like: 1 + 1 + 1 + 1 + 0 + 1 + 1 + 1 + 0
+    // instead of using a sum variable.
+    return 1 + this.size(node.left) + this.size(node.right);
+  }
+
+  /**
+   * Recursively counts the total number of nodes in this tree.
+   * - Time: O(n) linear, n = number of nodes.
+   * - Space: O(h) linear due to the call stack.
+   * @param {BSTNode} current The current node during the traversal of this tree.
+   * @param {number} total The current total as this tree is being traversed.
+   * @returns {number} The total number of nodes.
+   */
+  size2(current = this.root, total = 0) {
+    /**
+     * You have to be careful with primitive data types as parameters during
+     * recursion because they are not pass-by-reference so this means each
+     * recursive function call can have it's own separate copy of the total
+     * which is why total = this.size2(current.left, total); is needed because
+     * total++ is not updating it by reference.
+     */
+    if (current == null) {
+      return total;
+    }
+    total++;
+
+    if (current.left != null) {
+      total = this.size2(current.left, total);
+    }
+
+    if (current.right != null) {
+      total = this.size2(current.right, total);
+    }
+    return total;
+  }
 
   /**
    * Inserts a new node with the given newVal in the right place to preserver
