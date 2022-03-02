@@ -47,21 +47,83 @@ class SinglyLinkedList {
 
   /**
    * Reverses this list in-place without using any extra lists.
-   * - Time: (?).
-   * - Space: (?).
+   * - Time: O(n) linear, n = list length.
+   * - Space: O(1) constant.
    * @returns {SinglyLinkedList} This list.
    */
-  reverse() {}
+  reverse() {
+    /*
+      Each iteration we cut out current's next node to make it the new head
+      iteration-by-iteration example:
+
+      1234 -> initial list, 'current' is 1, next is 2.
+      2134 -> 'current' is still 1, next is 3.
+      3214
+      4321
+    */
+    if (!this.head || !this.head.next) {
+      return this;
+    }
+
+    let current = this.head;
+
+    while (current.next) {
+      const newHead = current.next;
+      // cut the newHead out from where it currently is
+      current.next = current.next.next;
+      newHead.next = this.head;
+      this.head = newHead;
+    }
+    return this;
+  }
+
+  reverse2() {
+    let prev = null;
+    let node = this.head;
+
+    while (node) {
+      const nextNode = node.next;
+      node.next = prev;
+      prev = node;
+      node = nextNode;
+    }
+    this.head = prev;
+    return this;
+  }
 
   /**
    * Determines whether the list has a loop in it which would result in
    * infinitely traversing unless otherwise avoided. A loop is when a node's
    * next points to a node that is behind it.
-   * - Time: (?).
-   * - Space: (?).
+   * - Time: O(n) linear, n = list length.
+   * - Space: O(1) constant.
    * @returns {boolean} Whether the list has a loop or not.
    */
-  hasLoop() {}
+  hasLoop() {
+    /**
+      APPROACH:
+      two runners are sent out and one runner goes faster so it will
+      eventually 'lap' the slower runner if there is a loop, 
+      at the moment faster runner laps slower runner, they are at the same
+      place, aka same instance of a node.
+    */
+    if (!this.head) {
+      return false;
+    }
+
+    let fasterRunner = this.head;
+    let runner = this.head;
+
+    while (fasterRunner && fasterRunner.next) {
+      runner = runner.next;
+      fasterRunner = fasterRunner.next.next;
+
+      if (runner === fasterRunner) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   /**
    * Concatenates the nodes of a given list onto the back of this list.
