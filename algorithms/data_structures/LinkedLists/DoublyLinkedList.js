@@ -1,6 +1,9 @@
 /* 
 Make double linked list classes and create these methods:
 
+double linked list should allow traversing forwards and backwards starting
+from either side.
+
 isEmpty
 insertAtFront
 insertAtBack
