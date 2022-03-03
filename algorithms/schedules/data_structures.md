@@ -87,3 +87,7 @@
 ### W4 Mon - [SinglyLinkedList](../data_structures/LinkedLists/SinglyLinkedList.js)
 
 ### W4 Wed - [DoublyLinkedList](../data_structures/LinkedLists/DoublyLinkedList.js)
+
+### W4 Thur - [Heap.js](../data_structures/BinaryTrees/Heap.js)
+
+- [Heaps Intro](../data_structures/BinaryTrees/Heaps.md)
