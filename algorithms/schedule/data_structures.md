@@ -6,15 +6,23 @@
 
 ## [Week 1 - Singly Linked Lists](../src/data_structures/SinglyLinkedList/index.js)
 
+### Mon - SLL
+
+- [intro](../src/data_structures/SinglyLinkedList/intro.js)
+
 ---
 
 ## [Week 2 - Binary Search Tree](../src/data_structures/BinarySearchTree/index.js)
+
+- [intro](../src/data_structures/BinarySearchTree/intro.md)
 
 ---
 
 ## Week 3 - Min Heap & Linked Lists Part 2
 
 ### Mon - [Min Heap](../src/data_structures/MinHeap/index.js)
+
+- [intro](../src/data_structures/MinHeap/intro.md)
 
 ### Tue - Min Heap
 
