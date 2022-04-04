@@ -57,7 +57,9 @@ class SinglyLinkedList {
    * @param {any} data The data to be added to the new node.
    * @returns {SinglyLinkedList} This list.
    */
-  insertAtBack(data) {}
+  insertAtBack(data) {
+    // loop like we did in the intro.js file and add a new ListNode('some data here');
+  }
 
   /**
    * Calls insertAtBack on each item of the given array.
