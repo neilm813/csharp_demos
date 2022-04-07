@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  @* The ~ in href refers to the wwwroot folder. *@
+  <link rel="stylesheet" href="~/css/styles.css">
+</head>
+
+@{
+  int randomNumber = new System.Random().Next(0, 100);
+}
+
+<body class="bg-dark text-light">
+  <h1>Favorite Videos - Home</h1>
+  <p>Enjoy a random number, on the house: @randomNumber</p>
+  <a href="/videos">Favorite Videos!</a>
+</body>
+
+</html>
