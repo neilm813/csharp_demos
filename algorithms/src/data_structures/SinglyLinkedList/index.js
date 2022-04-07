@@ -42,6 +42,25 @@ class SinglyLinkedList {
   }
 
   /**
+   * Retrieves the data of the second to last node in this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @returns {any} The data of the second to last node or null if there is no
+   *    second to last node.
+   */
+  secondToLast() {}
+
+  /**
+   * Removes the node that has the matching given val as it's data.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {any} val The value to compare to the node's data to find the
+   *    node to be removed.
+   * @returns {boolean} Indicates if a node was removed or not.
+   */
+  removeVal(val) {}
+
+  /**
    * Removes the last node of this list.
    * - Time: O(n) linear, n = length of list.
    * - Space: O(1) constant.
