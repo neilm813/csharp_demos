@@ -52,7 +52,7 @@ class SinglyLinkedList {
   concat(addList) {}
 
   /**
-   * Finds the node with the smallest number as data and moves it to the front
+   * Finds the node with the smallest number as data and moves that node to the front
    * of this list.
    * - Time: O(?).
    * - Space: O(?).
