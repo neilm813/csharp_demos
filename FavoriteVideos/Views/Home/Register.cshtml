@@ -1,0 +1,40 @@
+@model User
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  @* The ~ in href refers to the wwwroot folder. *@
+  <link rel="stylesheet" href="~/css/styles.css">
+</head>
+
+<body class="bg-dark text-light">
+  <h2>Register</h2>
+
+  <form action="/users/process-registerion" method="POST">
+    <div>
+      <label>
+        First Name
+      </label>
+      @* name attribute must match a property name on the model *@
+      <input type="text" name="FirstName">
+    </div>
+
+    <div>
+      <label>
+        Last Name
+      </label>
+      @* name attribute must match a property name on the model *@
+      <input type="text" name="LastName">
+    </div>
+
+    <button>Submit</button>
+  </form>
+</body>
+
+</html>

@@ -1,3 +1,5 @@
+@model User
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,15 +13,8 @@
   <link rel="stylesheet" href="~/css/styles.css">
 </head>
 
-@{
-  int randomNumber = new System.Random().Next(0, 100);
-}
-
 <body class="bg-dark text-light">
-  <h1>Favorite Videos - Home</h1>
-  <p>Enjoy a random number, on the house: @randomNumber</p>
-  <a href="/videos">Favorite Videos!</a> |
-  <a href="/users/register">Register</a>
+  <h2>Welcome @Model.FullName()</h2>
 </body>
 
 </html>

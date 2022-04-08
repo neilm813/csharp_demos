@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using FavoriteVideos.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FavoriteVideos.Controllers
@@ -14,6 +12,29 @@ namespace FavoriteVideos.Controllers
             return View("Index");
         }
 
+        /* ViewBag approach */
+        // [HttpGet("/videos")]
+        // public ViewResult Videos()
+        // {
+        //     List<string> youtubeVideoIds = new List<string>
+        //     {
+        //     "fbqHK8i-HdA", "CUe2ymg1RHs", "-rEIOkGCbo8", "KYgZPphIKQY", "GPdGeLAprdg", "eg9_ymCEAF8", "nHkUMkUFuBc", "QTwcvNdMFMI", "j6YK-qgt_TI", "Wvjsgb2nB4o", "6avJHaC3C2U", "_mZBa3sqTrI", "GcKkiRl9_qE"
+        //     };
+
+        //     /* 
+        //     Each controller method / 'action' has it's own ViewBag that is
+        //     SEPARATE, the data is not shared between them.
+
+        //     The ViewBag properties are automatically available in the View
+        //     that is returned from this method.
+        //     */
+        //     ViewBag.YoutubeVideoIds = youtubeVideoIds;
+        //     ViewBag.Message = $"Here are {youtubeVideoIds.Count} of my favorite videos!";
+
+        //     return View("Videos");
+        // }
+
+        /* ViewModel approach */
         [HttpGet("/videos")]
         public ViewResult Videos()
         {
@@ -22,17 +43,25 @@ namespace FavoriteVideos.Controllers
             "fbqHK8i-HdA", "CUe2ymg1RHs", "-rEIOkGCbo8", "KYgZPphIKQY", "GPdGeLAprdg", "eg9_ymCEAF8", "nHkUMkUFuBc", "QTwcvNdMFMI", "j6YK-qgt_TI", "Wvjsgb2nB4o", "6avJHaC3C2U", "_mZBa3sqTrI", "GcKkiRl9_qE"
             };
 
-            /* 
-            Each controller method / 'action' has it's own ViewBag that is
-            SEPARATE, the data is not shared between them.
+            VideosViewModel viewModel = new VideosViewModel()
+            {
+                YoutubeVideoIds = youtubeVideoIds,
+                Message = "Here are some of my favorite videos!"
+            };
 
-            The ViewBag properties are automatically available in the View
-            that is returned from this method.
-            */
-            ViewBag.YoutubeVideoIds = youtubeVideoIds;
-            ViewBag.Message = $"Here are {youtubeVideoIds.Count} of my favorite videos!";
+            return View("Videos", viewModel);
+        }
 
-            return View("Videos");
+        [HttpGet("/users/register")]
+        public ViewResult Register()
+        {
+            return View("Register");
+        }
+
+        [HttpPost("/users/process-registerion")]
+        public ViewResult ProcessRegistration(User newUser)
+        {
+            return View("Guest", newUser);
         }
     }
 }
