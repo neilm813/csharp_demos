@@ -38,6 +38,54 @@ class BinarySearchTree {
     this.root = null;
   }
 
+  /**
+   * Determines if this tree is empty.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @returns {boolean} Indicates if this tree is empty.
+   */
+  isEmpty() {}
+
+  /**
+   * Retrieves the smallest integer data from this tree.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {Node} current The node that is currently accessed from the tree as
+   *    the tree is being traversed.
+   * @returns {number} The smallest integer from this tree.
+   */
+  min(current = this.root) {}
+
+  /**
+   * Retrieves the smallest integer data from this tree.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {Node} current The node that is currently accessed from the tree as
+   *    the tree is being traversed.
+   * @returns {number} The smallest integer from this tree.
+   */
+  minRecursive(current = this.root) {}
+
+  /**
+   * Retrieves the largest integer data from this tree.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {Node} current The node that is currently accessed from the tree as
+   *    the tree is being traversed.
+   * @returns {number} The largest integer from this tree.
+   */
+  max(current = this.root) {}
+
+  /**
+   * Retrieves the largest integer data from this tree.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @param {Node} current The node that is currently accessed from the tree as
+   *    the tree is being traversed.
+   * @returns {number} The largest integer from this tree.
+   */
+  maxRecursive(current = this.root) {}
+
   // Logs this tree horizontally with the root on the left.
   print(node = this.root, spaceCnt = 0, spaceIncr = 10) {
     if (!node) {
