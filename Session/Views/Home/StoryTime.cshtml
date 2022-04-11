@@ -1,0 +1,28 @@
+@model StoryFragment
+
+@{
+  string story = @Context.Session.GetString("Story");
+}
+
+<div class="row justify-content-center mb-3">
+  <div class="col border rounded p-3">
+    <h2>Story Time!</h2>
+    <small>Welcome @Context.Session.GetString("Username")</small>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col border rounded p-3">
+    <h2>The story, thus far:</h2>
+    <p>@story</p>
+
+    <form asp-controller="Home" asp-action="AddToStory" method="POST">
+      <div class="form-group">
+        <label asp-for="Word"></label>
+        @* <span asp-validation-for="Word" class="text-danger"></span> *@
+        <input asp-for="Word" class="form-control" />
+      </div>
+      <button class="btn btn-outline-success">Submit</button>
+    </form>
+  </div>
+</div>
