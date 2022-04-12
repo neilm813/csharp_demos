@@ -40,31 +40,68 @@ class BinarySearchTree {
 
   /**
    * Determines if this tree contains the given searchVal.
-   * - Time: O(?).
-   * - Space: O(?).
+   * - Time: O(h) linear, h = height of tree.
+   * - Space: O(1) constant.
    * @param {number} searchVal The number to search for in the node's data.
    * @returns {boolean} Indicates if the searchVal was found.
    */
-  contains(searchVal) {}
+  contains(searchVal) {
+    let current = this.root;
+
+    while (current) {
+      if (current.data === searchVal) {
+        return true;
+      }
+
+      if (searchVal < current.data) {
+        current = current.left;
+      } else {
+        current = current.right;
+      }
+    }
+    return false;
+  }
 
   /**
    * Determines if this tree contains the given searchVal.
-   * - Time: O(?).
-   * - Space: O(?).
+   * - Time: O(h) linear, h = height of tree.
+   * - Space: O(h) linear due to the call stack.
    * @param {number} searchVal The number to search for in the node's data.
    * @returns {boolean} Indicates if the searchVal was found.
    */
-  containsRecursive(searchVal, current = this.root) {}
+  containsRecursive(searchVal, current = this.root) {
+    if (current === null) {
+      return false;
+    }
+
+    if (current.data === searchVal) {
+      return true;
+    }
+
+    if (searchVal < current.data) {
+      return this.containsRecursive(searchVal, current.left);
+    }
+
+    if (searchVal > current.data) {
+      return this.containsRecursive(searchVal, current.right);
+    }
+  }
 
   /**
    * Calculates the range (max - min) from the given startNode.
-   * - Time: O(?).
-   * - Space: O(?).
-   * @param {Node} startNode The node to start from to calculate the range.
+   * - Time: O(rightHeight + leftHeight) -> still linear so simplify to O(h).
+   * - Space: O(h) linear due to the call stack. The max side finishes before
+   *    the right min side is added to the stack.
+   * @param {BSTNode} startNode The node to start from to calculate the range.
    * @returns {number|null} The range of this tree or a sub tree depending on if the
    *    startNode is the root or not.
    */
-  range(startNode = this.root) {}
+  range(startNode = this.root) {
+    if (!startNode) {
+      return null;
+    }
+    return this.max(startNode) - this.min(startNode);
+  }
 
   /**
    * Determines if this tree is empty.
@@ -191,13 +228,13 @@ twoLevelTree.root.right = new BSTNode(15);
       /   \
     5     15
   / \    / \
-2   4  13  20
+2   6  13  20
 */
 const threeLevelTree = new BinarySearchTree();
 threeLevelTree.root = new BSTNode(10);
 threeLevelTree.root.left = new BSTNode(5);
 threeLevelTree.root.left.left = new BSTNode(2);
-threeLevelTree.root.left.right = new BSTNode(4);
+threeLevelTree.root.left.right = new BSTNode(6);
 threeLevelTree.root.right = new BSTNode(15);
 threeLevelTree.root.right.right = new BSTNode(20);
 threeLevelTree.root.right.left = new BSTNode(13);
