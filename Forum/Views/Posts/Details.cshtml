@@ -1,0 +1,14 @@
+@model Post
+
+<div class="card shadow rounded w-75 mb-3 mx-auto">
+  <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
+    @Model.Topic
+  </h4>
+
+  <div class="card-body">
+    <p class="card-text">@Model.Body</p>
+    <small class="text-muted">Submitted on: @Model.CreatedAt</small>
+  </div>
+
+  <img src="@Model.ImgUrl" alt="@Model.Topic">
+</div>

@@ -50,7 +50,84 @@ namespace Forum.Controllers
             */
 
             db.SaveChanges();
+            // After SaveChanges, it has been created in the DB and the primary key now exists.
+            return RedirectToAction("Details", new { postId = post.PostId });
+        }
+
+        [HttpGet("/posts/{postId}")]
+        public IActionResult Details(int postId)
+        {
+            Post post = db.Posts.FirstOrDefault(p => p.PostId == postId);
+
+            if (post == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            return View("Details", post);
+        }
+
+        [HttpPost("/posts/{postId}/delete")]
+        public IActionResult Delete(int postId)
+        {
+            Post post = db.Posts.FirstOrDefault(p => p.PostId == postId);
+
+            if (post != null)
+            {
+                db.Posts.Remove(post);
+                db.SaveChanges();
+            }
+
             return RedirectToAction("All");
+        }
+
+        [HttpGet("/posts/{postId}/edit")]
+        public IActionResult Edit(int postId)
+        {
+            Post post = db.Posts.FirstOrDefault(p => p.PostId == postId);
+
+            if (post == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            return View("Edit", post);
+        }
+
+        [HttpPost("/posts/{postId}/update")]
+        public IActionResult Update(int postId, Post editedPost)
+        {
+            if (ModelState.IsValid == false)
+            {
+                /*
+                This happens automatically because we named the param the same as
+                the property. The submitted form instantiates a new Post using the
+                form data, but the form data does not include the PostId, the PostId
+                is in the URL. Add it into the editedPost before returning the "Edit"
+                page because the "Edit" page needs the PostId for the form URL.
+                */
+                editedPost.PostId = postId;
+                // Send back to the page with the form so error messages are displayed
+
+                return View("Edit", editedPost);
+            }
+
+            Post dbPost = db.Posts.FirstOrDefault(p => p.PostId == postId);
+
+            if (dbPost == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            dbPost.Topic = editedPost.Topic;
+            dbPost.Body = editedPost.Body;
+            dbPost.ImgUrl = editedPost.ImgUrl;
+            dbPost.UpdatedAt = DateTime.Now;
+
+            db.Posts.Update(dbPost);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { postId = postId });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

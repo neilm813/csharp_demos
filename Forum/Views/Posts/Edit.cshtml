@@ -1,14 +1,15 @@
 @model Post
 
 @{
-  ViewData["Title"] = "New Post";
+  ViewData["Title"] = "Edit Post";
 }
 
 <div class="container">
-  <h2 class="text-center">New Post</h2>
+  <h2 id="edit-post-title" class="text-center">Edit Post</h2>
 
   <div class="row justify-content-center">
-    <form asp-controller="Posts" asp-action="Create" method="POST" class="border rounded w-50 p-3">
+    <form asp-controller="Posts" asp-action="Update" asp-route-postId="@Model.PostId" method="POST"
+      class="border rounded w-50 p-3">
       <div class="form-group">
         <label asp-for="Topic"></label>
         <span asp-validation-for="Topic" class="text-danger font-weight-bold"></span>
