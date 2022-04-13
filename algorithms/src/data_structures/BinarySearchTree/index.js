@@ -41,24 +41,73 @@ class BinarySearchTree {
   /**
    * Inserts a new node with the given newVal in the right place to preserver
    * the order of this tree.
-   * - Time: O(?).
-   * - Space: O(?).
+   * - Time: O(h) linear, h = height of tree because the new node may have to
+   *    be added at the bottom.
+   * - Space: O(1) constant.
    * @param {number} newVal The data to be added to a new node.
    * @returns {BinarySearchTree} This tree.
    */
-  insert(newVal) {}
+  insert(newVal) {
+    const node = new BSTNode(newVal);
+
+    if (this.isEmpty()) {
+      this.root = node;
+      return this;
+    }
+
+    let current = this.root;
+
+    while (true) {
+      if (newVal <= current.data) {
+        if (current.left === null) {
+          current.left = node;
+          return this;
+        }
+
+        current = current.left;
+      } else {
+        // newVal is greater than current.data
+        if (current.right === null) {
+          current.right = node;
+          return this;
+        }
+
+        current = current.right;
+      }
+    }
+  }
 
   /**
    * Inserts a new node with the given newVal in the right place to preserver
    * the order of this tree.
-   * - Time: O(?).
-   * - Space: O(?).
+   * - Time: O(h) linear, h = height of tree because the new node may have to
+   *    be added at the bottom.
+   * - Space: O(h) linear due to the call stack.
    * @param {number} newVal The data to be added to a new node.
-   * @param {Node} curr The node that is currently accessed from the tree as
+   * @param {BSTNode} curr The node that is currently accessed from the tree as
    *    the tree is being traversed.
    * @returns {BinarySearchTree} This tree.
    */
-  insertRecursive(newVal, curr = this.root) {}
+  insertRecursive(newVal, curr = this.root) {
+    if (this.isEmpty()) {
+      this.root = new BSTNode(newVal);
+      return this;
+    }
+
+    if (newVal > curr.data) {
+      if (curr.right === null) {
+        curr.right = new BSTNode(newVal);
+        return this;
+      }
+      return this.insertRecursive(newVal, curr.right);
+    }
+
+    if (curr.left === null) {
+      curr.left = new BSTNode(newVal);
+      return this;
+    }
+    return this.insertRecursive(newVal, curr.left);
+  }
 
   /**
    * Determines if this tree contains the given searchVal.
