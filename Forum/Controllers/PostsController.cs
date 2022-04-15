@@ -6,11 +6,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Forum.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Forum.Controllers
 {
     public class PostsController : Controller
     {
+        private int? uid
+        {
+            get
+            {
+                return HttpContext.Session.GetInt32("UserId");
+            }
+        }
+
         private readonly ILogger<PostsController> _logger;
         private ForumContext db;
 
@@ -23,25 +33,49 @@ namespace Forum.Controllers
         [HttpGet("/posts")]
         public IActionResult All()
         {
-            List<Post> allPosts = db.Posts.ToList();
+            if (uid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            /* 
+            The .Include generates a SQL join for us:
+            SELECT * FROM users AS u
+            JOIN posts AS p ON u.UserId = p.UserId
+            */
+
+            List<Post> allPosts = db.Posts
+                .Include(p => p.Author)
+                .ToList();
             return View("All", allPosts);
         }
 
         [HttpGet("/posts/new")]
         public IActionResult New()
         {
+            if (uid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View("New");
         }
 
         [HttpPost("/posts/create")]
         public IActionResult Create(Post post)
         {
+            if (uid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (ModelState.IsValid == false)
             {
                 // Send back to the form to show error messages.
                 return View("New");
             }
 
+            post.UserId = (int)uid;
             db.Posts.Add(post);
             /* 
             The ORM generates the SQL query for us:
@@ -57,7 +91,14 @@ namespace Forum.Controllers
         [HttpGet("/posts/{postId}")]
         public IActionResult Details(int postId)
         {
-            Post post = db.Posts.FirstOrDefault(p => p.PostId == postId);
+            if (uid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            Post post = db.Posts
+                .Include(p => p.Author)
+                .FirstOrDefault(p => p.PostId == postId);
 
             if (post == null)
             {
@@ -72,12 +113,15 @@ namespace Forum.Controllers
         {
             Post post = db.Posts.FirstOrDefault(p => p.PostId == postId);
 
-            if (post != null)
+            // If post not found or user is not the author.
+            if (post == null || uid == null || post.UserId != uid)
             {
-                db.Posts.Remove(post);
-                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
             }
 
+
+            db.Posts.Remove(post);
+            db.SaveChanges();
             return RedirectToAction("All");
         }
 
@@ -86,7 +130,8 @@ namespace Forum.Controllers
         {
             Post post = db.Posts.FirstOrDefault(p => p.PostId == postId);
 
-            if (post == null)
+            // If post not found or user is not the author.
+            if (post == null || uid == null || post.UserId != uid)
             {
                 return RedirectToAction("All");
             }
@@ -97,6 +142,14 @@ namespace Forum.Controllers
         [HttpPost("/posts/{postId}/update")]
         public IActionResult Update(int postId, Post editedPost)
         {
+            Post dbPost = db.Posts.FirstOrDefault(p => p.PostId == postId);
+
+            // If post not found or user is not the author.
+            if (dbPost == null || uid == null || dbPost.UserId != uid)
+            {
+                return RedirectToAction("All");
+            }
+
             if (ModelState.IsValid == false)
             {
                 /*
@@ -110,13 +163,6 @@ namespace Forum.Controllers
                 // Send back to the page with the form so error messages are displayed
 
                 return View("Edit", editedPost);
-            }
-
-            Post dbPost = db.Posts.FirstOrDefault(p => p.PostId == postId);
-
-            if (dbPost == null)
-            {
-                return RedirectToAction("All");
             }
 
             dbPost.Topic = editedPost.Topic;

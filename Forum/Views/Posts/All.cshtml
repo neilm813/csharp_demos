@@ -3,6 +3,22 @@
 <div>
   <h2 class="text-center">All Posts</h2>
   <hr>
+  <h3 class="text-center">Create</h3>
+  @*
+    Create form on same page as displaying data.
+
+    The partial is automatically passed the view model from it's parent which
+    causes a problem, because the partial doesn't want that type of data.
+
+    So we need to manually pass in what it needs: an empty Post so the form can
+    fill the empty post up with data.
+  *@
+
+  @{
+    Post emptyPost = new Post();
+  }
+  <partial name="_New" model="@emptyPost"></partial>
+  <hr>
 
   @foreach (Post post in Model)
   {
@@ -14,7 +30,7 @@
 
       <div class="card-body">
         <p class="card-text">@post.Body</p>
-        <small class="text-muted">Submitted on: @post.CreatedAt</small>
+        <small class="text-muted">Submitted on: @post.CreatedAt by @post.Author.FullName()</small>
       </div>
 
       @if (post.ImgUrl != null)
@@ -22,18 +38,21 @@
         <img src="@post.ImgUrl" alt="@post.Topic">
       }
 
-      <div class="container">
-        <div class="card-footer row justify-content-center">
-          <form asp-controller="Posts" asp-action="Delete" asp-route-postId="@post.PostId" method="POST">
-            <button class="btn btn-outline-danger btn-sm">Delete</button>
-          </form>
+      @if (post.UserId == Context.Session.GetInt32("UserId"))
+      {
+        <div class="container">
+          <div class="card-footer row justify-content-center">
+            <form asp-controller="Posts" asp-action="Delete" asp-route-postId="@post.PostId" method="POST">
+              <button class="btn btn-outline-danger btn-sm">Delete</button>
+            </form>
 
-          <a asp-controller="Posts" asp-action="Edit" asp-route-postId="@post.PostId"
+            <a asp-controller="Posts" asp-action="Edit" asp-route-postId="@post.PostId"
           class="btn btn-outline-warning btn-sm ml-2">
-            Edit
-          </a>
+              Edit
+            </a>
+          </div>
         </div>
-      </div>
+      }
     </div>
   }
 </div>

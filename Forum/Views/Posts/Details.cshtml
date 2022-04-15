@@ -7,7 +7,7 @@
 
   <div class="card-body">
     <p class="card-text">@Model.Body</p>
-    <small class="text-muted">Submitted on: @Model.CreatedAt</small>
+    <small class="text-muted">Submitted on: @Model.CreatedAt by @Model.Author.FullName()</small>
   </div>
 
   <img src="@Model.ImgUrl" alt="@Model.Topic">

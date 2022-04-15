@@ -13,6 +13,14 @@ namespace Forum.Controllers
 {
     public class HomeController : Controller
     {
+        private int? uid
+        {
+            get
+            {
+                return HttpContext.Session.GetInt32("UserId");
+            }
+        }
+
         private readonly ILogger<HomeController> _logger;
         private ForumContext db;
 
@@ -25,6 +33,10 @@ namespace Forum.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
+            if (uid != null)
+            {
+                return RedirectToAction("All", "Posts");
+            }
             return View("Index");
         }
 
