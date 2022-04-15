@@ -85,6 +85,10 @@ namespace Forum.Controllers
 
             db.SaveChanges();
             // After SaveChanges, it has been created in the DB and the primary key now exists.
+            /* 
+            new {} creates a new dictionary where the key names need to match
+            the names of the params of the method you are redirecting to.
+            */
             return RedirectToAction("Details", new { postId = post.PostId });
         }
 
@@ -173,6 +177,10 @@ namespace Forum.Controllers
             db.Posts.Update(dbPost);
             db.SaveChanges();
 
+            /* 
+            new {} creates a new dictionary where the key names need to match
+            the names of the params of the method you are redirecting to.
+            */
             return RedirectToAction("Details", new { postId = postId });
         }
 
