@@ -25,5 +25,16 @@ namespace Forum.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+        /* 
+        Relationships and navigation properties. Navigation properties are the
+        properties that have another model as their data type.
+        
+        Navigation properties will be null unless you use .Include
+        */
+        public int UserId { get; set; }
+
+        // 1 User : Many Posts
+        public User Author { get; set; }
     }
 }

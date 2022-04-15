@@ -43,5 +43,15 @@ namespace Forum.Models
         {
             return FirstName + " " + LastName;
         }
+
+        /* 
+        Relationships and navigation properties. Navigation properties are the
+        properties that have another model as their data type.
+        
+        Navigation properties will be null unless you use .Include
+        */
+
+        // 1 User : Many Posts
+        public List<Post> SubmittedPosts { get; set; }
     }
 }
