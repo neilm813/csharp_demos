@@ -23,18 +23,50 @@ class MinHeap {
    * - Space: O(1) constant.
    * @returns {?number} Null if empty.
    */
-  top() {}
+  top() {
+    return this.heap.length > 1 ? this.heap[1] : null;
+  }
 
   /**
-   * Inserts a new number into the heap and maintains the heaps order.
-   * 1. Push new num to back then.
+   * Inserts a new number into the heap and reorders heap to maintain order.
+   * 1. Push new num to back.
    * 2. Iteratively swap the new num with it's parent while it is smaller than
    *    it's parent.
-   * - Time: O(log n) logarithmic due to shiftUp / iterative swapping.
+   * - Time: O(log n) logarithmic due to shiftUp.
    * - Space: O(1) constant.
    * @param {number} num The num to add.
    */
-  insert(num) {}
+  insert(num) {
+    this.heap.push(num);
+    this.shiftUp();
+    // .push on array returns the new length
+    return this.size();
+  }
+
+  // AKA: siftUp, heapifyUp, bubbleUp to restore order after insert
+  shiftUp() {
+    // just to avoid repeatedly typing this.heap
+    const heap = this.heap;
+    let idxOfNodeToShiftUp = heap.length - 1;
+
+    while (idxOfNodeToShiftUp > 1) {
+      const idxOfParent = Math.floor(idxOfNodeToShiftUp / 2);
+
+      // parent already smaller, no more swapping needed
+      if (heap[idxOfParent] <= heap[idxOfNodeToShiftUp]) {
+        break;
+      }
+
+      // while the parent is not smaller, swap it with it's child (array destructure syntax)
+      // when the while loop is done, the new node is in it's correct place so all parents are smaller than children
+      [heap[idxOfNodeToShiftUp], heap[idxOfParent]] = [
+        heap[idxOfParent],
+        heap[idxOfNodeToShiftUp],
+      ];
+      // since it was swapped with parent, it is now located at the idxOfParent
+      idxOfNodeToShiftUp = idxOfParent;
+    }
+  }
 
   /**
    * Logs the tree horizontally with the root on the left and the index in
