@@ -22,6 +22,9 @@
 
   @foreach (Post post in Model)
   {
+    bool alreadyLiked = post.Likes
+    .Any(l => l.UserId == Context.Session.GetInt32("UserId"));
+
     <div class="card shadow rounded w-50 mb-3 mx-auto">
       <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
         @* <a href="/posts/@post.PostId">@post.Topic</a> *@
@@ -38,21 +41,35 @@
         <img src="@post.ImgUrl" alt="@post.Topic">
       }
 
-      @if (post.UserId == Context.Session.GetInt32("UserId"))
-      {
-        <div class="container">
-          <div class="card-footer row justify-content-center">
-            <form asp-controller="Posts" asp-action="Delete" asp-route-postId="@post.PostId" method="POST">
+      <div class="container">
+        <div class="card-footer row justify-content-center">
+          <form asp-controller="Posts" asp-action="Like" asp-route-postId="@post.PostId">
+            <button class="btn btn-outline-info btn-sm">
+              @if (alreadyLiked)
+              {
+                <span>Unlike</span>
+              }
+              else
+              {
+                <span>Like</span>
+              }
+              <span>(@post.Likes.Count)</span>
+            </button>
+          </form>
+
+          @if (post.UserId == Context.Session.GetInt32("UserId"))
+          {
+            <form asp-controller="Posts" asp-action="Delete" asp-route-postId="@post.PostId" method="POST" class="mx-1">
               <button class="btn btn-outline-danger btn-sm">Delete</button>
             </form>
 
             <a asp-controller="Posts" asp-action="Edit" asp-route-postId="@post.PostId"
-          class="btn btn-outline-warning btn-sm ml-2">
+          class="btn btn-outline-warning btn-sm">
               Edit
             </a>
-          </div>
+          }
         </div>
-      }
+      </div>
     </div>
   }
 </div>

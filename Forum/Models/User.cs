@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using static ProjName.CustomValidators;
 
 namespace Forum.Models
 {
@@ -54,5 +53,8 @@ namespace Forum.Models
 
         // 1 User : Many Posts
         public List<Post> SubmittedPosts { get; set; }
+
+        // Many User to Many Post
+        public List<UserPostLike> Likes { get; set; }
     }
 }

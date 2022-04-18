@@ -36,5 +36,8 @@ namespace Forum.Models
 
         // 1 User : Many Posts
         public User Author { get; set; }
+
+        // Many User to Many Post
+        public List<UserPostLike> Likes { get; set; }
     }
 }

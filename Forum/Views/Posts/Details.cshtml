@@ -11,4 +11,22 @@
   </div>
 
   <img src="@Model.ImgUrl" alt="@Model.Topic">
+
+  <div class="card-footer">
+    <h3>Liked by @Model.Likes.Count users</h3>
+    @*
+      To avoid the dangling comma here we would need to use a for loop with an
+      index so we can check if it's the last interation to conditionally add
+      a comma only when it's not the last iteration.
+    *@
+    @foreach (UserPostLike like in Model.Likes)
+    {
+      <span>@like.User.FullName() - @like.User.SubmittedPosts.Count, </span>
+    }
+
+    @* To avoid the dangling comma more easily. *@
+    <p>
+      @String.Join(", ", Model.Likes.Select(like => like.User.FullName() + " - " + like.User.SubmittedPosts.Count))
+    </p>
+  </div>
 </div>

@@ -46,6 +46,7 @@ namespace Forum.Controllers
 
             List<Post> allPosts = db.Posts
                 .Include(p => p.Author)
+                .Include(p => p.Likes)
                 .ToList();
             return View("All", allPosts);
         }
@@ -100,8 +101,12 @@ namespace Forum.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            // Hover over the parameter to the left of => to see it's data type.
             Post post = db.Posts
-                .Include(p => p.Author)
+                .Include(post => post.Author)
+                // .ThenInclude is for including something on the thing that was
+                // just previously Included (we just included Likes above).
+                .Include(post => post.Likes).ThenInclude(like => like.User).ThenInclude(user => user.SubmittedPosts)
                 .FirstOrDefault(p => p.PostId == postId);
 
             if (post == null)
@@ -182,6 +187,31 @@ namespace Forum.Controllers
             the names of the params of the method you are redirecting to.
             */
             return RedirectToAction("Details", new { postId = postId });
+        }
+
+        [HttpPost("/posts/{postId}/like")]
+        public IActionResult Like(int postId)
+        {
+            UserPostLike existingLike = db.UserPostLikes
+                .FirstOrDefault(upl => upl.UserId == uid && upl.PostId == postId);
+
+            if (existingLike == null)
+            {
+                UserPostLike newLike = new UserPostLike()
+                {
+                    PostId = postId,
+                    UserId = (int)uid
+                };
+
+                db.UserPostLikes.Add(newLike);
+            }
+            else
+            {
+                db.UserPostLikes.Remove(existingLike);
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("All");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
