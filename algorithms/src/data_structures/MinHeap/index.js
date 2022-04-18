@@ -59,10 +59,9 @@ class MinHeap {
 
       // while the parent is not smaller, swap it with it's child (array destructure syntax)
       // when the while loop is done, the new node is in it's correct place so all parents are smaller than children
-      [heap[idxOfNodeToShiftUp], heap[idxOfParent]] = [
-        heap[idxOfParent],
-        heap[idxOfNodeToShiftUp],
-      ];
+      // prettier-ignore
+      [heap[idxOfNodeToShiftUp], heap[idxOfParent]] = 
+      [heap[idxOfParent], heap[idxOfNodeToShiftUp]];
       // since it was swapped with parent, it is now located at the idxOfParent
       idxOfNodeToShiftUp = idxOfParent;
     }
