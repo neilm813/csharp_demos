@@ -51,6 +51,7 @@ namespace BeltPrep.Models
         Navigation properties will be null unless you use .Include
         */
 
-
+        public List<Trip> PlannedTrips { get; set; }
+        public List<TripUserJoin> TripUserJoins { get; set; }
     }
 }
