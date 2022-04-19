@@ -92,8 +92,8 @@
 - Used to restore the proper order after insertion (pushing to back of array).
 - **Starting from the back** shift up the new last node until it reaches correct position by iteratively swapping.
 - When pushing a new item to back of heap array, it then needs to be swapped with it's parent while it violates the ordering rule so parent will be larger / smaller.
-  - Max Heap: swap newly added node with parent **while** it is larger so that parent will become the larger node.
-  - Min Heap: swap newly added node with parent **while** it is smaller so that parent will become the smaller node.
+  - Max Heap: swap newly added node with parent **while** the new node larger so that parent will become the larger node.
+  - Min Heap: swap newly added node with parent **while** the new node smaller so that parent will become the smaller node.
 
 ---
 
@@ -106,39 +106,3 @@
 - **Starting from the front**, "shift down" the old last node that is now at the front until it reaches correct position by iteratively swapping while the ordering rule is violated.
   - Max Heap: if the largest child is larger than parent, swap them so the parent will become the larger node.
   - Min Heap: if the smallest child is smaller than parent, swap them so the parent will become the smaller node.
-
----
-
-## Advanced (for later reference)
-
-### Inheritance
-
-- `MaxHeap` and `MinHeap` `extends Heap` class
-
----
-
-### `selector` `constructor` Parameter Callback Pattern
-
-- Alternative option: a node class could be used for uniformity, which stores the data and a priority int value for that data.
-- Selector callback function passed in when instantiating a heap.
-- The selector function accepts a node and contains the logic to access and return where in the node the value is stored that the heap should use to order.
-- Now this selector callback is used whenever you write heap methods that depend on the value to use for ordering, so that the logic doesn't need to be re-written if the nodes of the heap are differently shaped objects where the value is stored under a different key name.
-
-#### Usage Examples
-
-1. Heap nodes are primitive integers: `new MaxHeap((node) => node)`.
-   - The selector callback doesn't need to do anything special, just return the node itself since the node IS the integer value that should be used for ordering, this could be set as the default `selector` param value.
-2. Heap nodes are person objects that should be ordered by age key: `new MaxHeap((node) => node.age)`.
-3. Heap nodes are person objects that should be ordered by a nested array's length: `new MaxHeap((node) => node.academicRecord.achievements.length)`.
-
-- Now in the heap class whenever needing to access the value of a node, such as to check which is greater:
-
-  - ```js
-    const parent = this.values[idx],
-      leftChild = this.values[idx * 2],
-      rightChild = this.values[idx * 2 + 1];
-
-    if (this.selector(leftChild) > this.selector(parent)) {
-      // code...
-    }
-    ```

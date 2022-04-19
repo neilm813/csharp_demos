@@ -21,14 +21,69 @@ class MinHeap {
    * Extracts the min num from the heap and then re-orders the heap to
    * maintain order so the next min is ready to be extracted.
    * 1. Save the first node to a temp var.
-   * 2. Pop last node off and set idx1 equal to the popped value.
+   * 2. Pop last node off and overwrite idx1 with it.
    * 3. Iteratively swap the old last node that is now at idx1 with it's
    *    smallest child IF the smallest child is smaller than it.
    * - Time: O(log n) logarithmic due to shiftDown.
    * - Space: O(1) constant.
    * @returns {?number} The min number or null if empty.
    */
-  extract() {}
+  extract() {
+    // nothing to remove
+    if (this.heap.length === 1) {
+      return null;
+    }
+
+    const heap = this.heap;
+    const min = heap[1];
+    const lastNode = heap.pop();
+
+    // last item is being removed, no more work required
+    if (heap.length === 1) {
+      return min;
+    }
+
+    // last node is overwriting the idx 1 to "remove" idx 1
+    heap[1] = lastNode;
+    // since we put the lastNode at the start, it needs to be swapped down to it's correct position to restore the order
+    this.shiftDown();
+    return min;
+  }
+
+  // AKA: siftDown, heapifyDown, bubbleDown, sinkDown to restore order after extracting min
+  shiftDown() {
+    const heap = this.heap;
+
+    let idxOfNodeToShiftDown = 1;
+    let idxOfLeftChild = idxOfNodeToShiftDown * 2;
+
+    // while there is at least 1 child
+    while (idxOfLeftChild < heap.length) {
+      const idxOfRightChild = idxOfLeftChild + 1;
+      let idxOfSmallestChild = idxOfLeftChild;
+
+      if (
+        idxOfRightChild < heap.length &&
+        heap[idxOfRightChild] < heap[idxOfLeftChild]
+      ) {
+        idxOfSmallestChild = idxOfRightChild;
+      }
+
+      // no more swapping needed, no children are smaller
+      if (heap[idxOfNodeToShiftDown] <= heap[idxOfSmallestChild]) {
+        break;
+      }
+
+      // swap the smallest child with the parent since the parent is not smaller
+      // prettier-ignore
+      [heap[idxOfNodeToShiftDown], heap[idxOfSmallestChild]] = 
+      [heap[idxOfSmallestChild], heap[idxOfNodeToShiftDown]];
+
+      // follow this node since it was just swapped to see if it needs to be swapped again
+      idxOfNodeToShiftDown = idxOfSmallestChild;
+      idxOfLeftChild = idxOfNodeToShiftDown * 2;
+    }
+  }
 
   /**
    * Retrieves the top (minimum number) in the heap without removing it.
