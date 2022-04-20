@@ -1,1 +1,28 @@
+@model List<Trip>
+
 <h2>All Trips</h2>
+
+@foreach (Trip trip in Model)
+{
+  <div class="card shadow rounded w-50 mb-3 mx-auto">
+    <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
+      @trip.Name
+    </h4>
+
+    <div class="card-body">
+      <p class="card-text">@trip.Location from @trip.DepartureDate to @trip.ReturnDate</p>
+      <small class="text-muted">Planned by @trip.Planner.FullName()</small>
+    </div>
+
+    @if (trip.ImgUrl != null)
+    {
+      <img src="@trip.ImgUrl" alt="@trip.Location">
+    }
+
+    <div class="container">
+      <div class="card-footer row justify-content-center">
+
+      </div>
+    </div>
+  </div>
+}

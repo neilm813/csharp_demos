@@ -1,0 +1,41 @@
+@model Trip
+
+<div class="container">
+  <h2 class="text-center">New Trip</h2>
+
+  <div class="row justify-content-center">
+    <form asp-controller="Trips" asp-action="Create" method="POST" class="border rounded w-50 p-3">
+      <div class="form-group">
+        <label asp-for="Name"></label>
+        <span asp-validation-for="Name" class="text-danger font-weight-bold"></span>
+        <input asp-for="Name" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label asp-for="DepartureDate"></label>
+        <span asp-validation-for="DepartureDate" class="text-danger font-weight-bold"></span>
+        <input asp-for="DepartureDate" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label asp-for="ReturnDate"></label>
+        <span asp-validation-for="ReturnDate" class="text-danger font-weight-bold"></span>
+        <input asp-for="ReturnDate" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label asp-for="Location"></label>
+        <span asp-validation-for="Location" class="text-danger font-weight-bold"></span>
+        <input asp-for="Location" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label asp-for="ImgUrl"></label>
+        <span asp-validation-for="ImgUrl" class="text-danger font-weight-bold"></span>
+        <input asp-for="ImgUrl" class="form-control" />
+      </div>
+
+      <button class="btn btn-outline-success">Submit</button>
+    </form>
+  </div>
+</div>

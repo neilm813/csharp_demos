@@ -27,6 +27,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Trips" asp-action="All">All
                                 Trips</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Trips" asp-action="New">New
+                                Trip</a>
+                        </li>
                         @if (Context.Session.GetInt32("UserId") != null)
                         {
                             <li class="nav-item">

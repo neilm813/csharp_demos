@@ -9,17 +9,19 @@ namespace BeltPrep.Models
         [Key]
         public int TripId { get; set; }
 
-        [Display(Name = "Departure Date")]
-        [DataType(DataType.DateTime)]
-        public DateTime DepartureDate { get; set; }
-
-        [Display(Name = "Return Date")]
-        [DataType(DataType.DateTime)]
-        public DateTime ReturnDate { get; set; }
-
         [Required(ErrorMessage = "is required.")]
         [MinLength(2, ErrorMessage = "must be at least 2 characters.")]
         public string Name { get; set; }
+
+        [Display(Name = "Departure Date")]
+        [Required(ErrorMessage = "is required.")]
+        [DataType(DataType.DateTime)]
+        public DateTime? DepartureDate { get; set; }
+
+        [Display(Name = "Return Date")]
+        [Required(ErrorMessage = "is required.")]
+        [DataType(DataType.DateTime)]
+        public DateTime? ReturnDate { get; set; }
 
         [Required(ErrorMessage = "is required.")]
         [MinLength(2, ErrorMessage = "must be at least 2 characters.")]
