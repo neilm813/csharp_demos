@@ -38,6 +38,7 @@ namespace BeltPrep.Controllers
 
             List<Trip> allTrips = db.Trips
                 .Include(t => t.Planner)
+                .Include(t => t.TripUserJoins)
                 .ToList();
 
             return View("All", allTrips);
@@ -57,6 +58,8 @@ namespace BeltPrep.Controllers
         [HttpPost("/trips/create")]
         public IActionResult Create(Trip trip)
         {
+            // See Trip.cs for custom [FutureDate] validator attribute which
+            // comes from CustomValidators.cs
             if (uid == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -68,9 +71,89 @@ namespace BeltPrep.Controllers
                 return View("New");
             }
 
+            if (trip.ReturnDate <= trip.DepartureDate)
+            {
+                ModelState.AddModelError("ReturnDate", "Return date must be after the departure date.");
+                return View("New");
+            }
+
             // Relate the creator to the new trip.
             trip.UserId = (int)uid;
             db.Trips.Add(trip);
+            db.SaveChanges();
+            return RedirectToAction("All");
+        }
+
+        [HttpPost("/trips/{tripId}/join")]
+        public IActionResult Join(int tripId)
+        {
+            if (uid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            TripUserJoin existingJoin = db.TripUserJoins
+                .FirstOrDefault(j => j.TripId == tripId && j.UserId == uid);
+
+            if (existingJoin == null)
+            {
+                TripUserJoin newJoin = new TripUserJoin()
+                {
+                    UserId = (int)uid,
+                    TripId = tripId
+                };
+
+                db.TripUserJoins.Add(newJoin);
+            }
+            else
+            {
+                db.Remove(existingJoin);
+            }
+
+            db.SaveChanges();
+
+            // new {} means new dictionary is being created.
+            //     RedirectToAction("Details", new { paramName1 = paramValue1, paramName2 = paramValue2 });
+            return RedirectToAction("Details", new { tripId = tripId });
+        }
+
+        [HttpGet("/trips/{tripId}")]
+        public IActionResult Details(int tripId)
+        {
+            if (uid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            Trip trip = db.Trips
+                .Include(t => t.Planner)
+                .Include(t => t.TripUserJoins).ThenInclude(join => join.User)
+                .FirstOrDefault(t => t.TripId == tripId);
+
+            if (trip == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            return View("Details", trip);
+        }
+
+        [HttpPost("/trips/{tripId}/delete")]
+        public IActionResult Delete(int tripId)
+        {
+            if (uid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            Trip trip = db.Trips.FirstOrDefault(t => t.TripId == tripId);
+
+            if (trip == null || trip.UserId != uid)
+            {
+                return RedirectToAction("All");
+            }
+
+            db.Trips.Remove(trip);
             db.SaveChanges();
             return RedirectToAction("All");
         }

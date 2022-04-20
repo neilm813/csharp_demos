@@ -1,0 +1,55 @@
+@model Trip
+
+@{
+  int? uid = Context.Session.GetInt32("UserId");
+  bool alreadyJoined = Model.TripUserJoins.Any(j => j.UserId == uid);
+}
+
+<h2 class="text-center">Trip Details</h2>
+
+<div class="card shadow rounded w-100 mb-3 mx-auto">
+  <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
+    @Model.Name
+  </h4>
+
+  <div class="card-body">
+    <p class="card-text">@Model.Location from @Model.DepartureDate to @Model.ReturnDate</p>
+    <small class="text-muted">Planned by @Model.Planner.FullName()</small>
+    <h5>Attendees</h5>
+    <ul>
+      @foreach (TripUserJoin joiner in Model.TripUserJoins)
+      {
+        <li>@joiner.User.FullName()</li>
+      }
+    </ul>
+  </div>
+
+  @if (Model.ImgUrl != null)
+  {
+    <img src="@Model.ImgUrl" alt="@Model.Location">
+  }
+
+  <div class="container">
+    <div class="card-footer row justify-content-center">
+      <form asp-controller="Trips" asp-action="Join" asp-route-tripId="@Model.TripId" method=POST>
+        <button class="btn btn-link">
+          @if (alreadyJoined)
+          {
+            <span class="text-warning">Leave Trip</span>
+          }
+          else
+          {
+            <span>Join Trip</span>
+          }
+        </button>
+      </form>
+
+      @if (Model.UserId == uid)
+      {
+        <form asp-controller="Trips" asp-action="Delete" asp-route-tripId="@Model.TripId" method=POST>
+          <button class="btn btn-link text-danger">Delete</button>
+        </form>
+      }
+    </div>
+  </div>
+</div>

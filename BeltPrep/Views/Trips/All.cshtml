@@ -1,12 +1,20 @@
 @model List<Trip>
 
-<h2>All Trips</h2>
+@{
+  int? uid = Context.Session.GetInt32("UserId");
+}
+
+<h2 class="text-center">All Trips</h2>
 
 @foreach (Trip trip in Model)
 {
-  <div class="card shadow rounded w-50 mb-3 mx-auto">
+  bool alreadyJoined = trip.TripUserJoins.Any(j => j.UserId == uid);
+
+  <div class="card shadow rounded w-75 mb-3 mx-auto">
     <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
-      @trip.Name
+      <a asp-controller="Trips" asp-action="Details" asp-route-tripId="@trip.TripId">
+        @trip.Name
+      </a>
     </h4>
 
     <div class="card-body">
@@ -21,7 +29,25 @@
 
     <div class="container">
       <div class="card-footer row justify-content-center">
+        <form asp-controller="Trips" asp-action="Join" asp-route-tripId="@trip.TripId" method=POST>
+          <button class="btn btn-link">
+            @if (alreadyJoined)
+            {
+              <span class="text-warning">Leave Trip</span>
+            }
+            else
+            {
+              <span>Join Trip</span>
+            }
+          </button>
+        </form>
 
+        @if (trip.UserId == uid)
+        {
+          <form asp-controller="Trips" asp-action="Delete" asp-route-tripId="@trip.TripId" method=POST>
+            <button class="btn btn-link text-danger">Delete</button>
+          </form>
+        }
       </div>
     </div>
   </div>

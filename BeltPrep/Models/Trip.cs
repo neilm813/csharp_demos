@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static BeltPrep.CustomValidators;
 
 namespace BeltPrep.Models
 {
@@ -15,6 +16,7 @@ namespace BeltPrep.Models
 
         [Display(Name = "Departure Date")]
         [Required(ErrorMessage = "is required.")]
+        [FutureDate]
         [DataType(DataType.DateTime)]
         public DateTime? DepartureDate { get; set; }
 
