@@ -1,0 +1,56 @@
+@model List<Wedding>
+
+<div>
+  <h2 class="text-center">All Weddings</h2>
+
+
+  @foreach (Wedding wedding in Model)
+  {
+    bool alreadyAttending = wedding.UserWeddingGuests
+    .Any(l => l.UserId == Context.Session.GetInt32("UserId"));
+
+    <div class="card shadow rounded w-50 mb-3 mx-auto">
+      <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
+        @wedding.WedderOne & @wedding.WedderTwo
+      </h4>
+
+      <div class="card-body">
+        <p class="card-text">Date: @wedding.Date</p>
+        <small class="text-muted">Submitted on: @wedding.CreatedAt by @wedding.Planner.FullName()</small>
+      </div>
+
+      <div class="container">
+        <div class="card-footer row justify-content-center">
+          <form asp-controller="Weddings" asp-action="Join" asp-route-weddingId="@wedding.WeddingId">
+            <button class="btn btn-outline-info btn-sm">
+              @if (alreadyAttending)
+              {
+                <span>Leave</span>
+              }
+              else
+              {
+                <span>Join</span>
+              }
+              <span>(@wedding.UserWeddingGuests.Count)</span>
+            </button>
+
+            <p>Guests:
+              @foreach (UserWeddingGuest uwg in wedding.UserWeddingGuests)
+              {
+                <span>@uwg.Guest.FullName(), </span>
+              }
+            </p>
+          </form>
+
+          @if (wedding.UserId == Context.Session.GetInt32("UserId"))
+          {
+            <form asp-controller="Weddings" asp-action="Delete" asp-route-weddingId="@wedding.WeddingId" method="POST"
+          class="mx-1">
+              <button class="btn btn-outline-danger btn-sm">Delete</button>
+            </form>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>
