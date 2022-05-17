@@ -91,5 +91,35 @@ namespace WeddingPlanner.Controllers
             db.SaveChanges();
             return RedirectToAction("All");
         }
+
+        [HttpPost("/weddings/{weddingId}/attend")]
+        public IActionResult Attend(int weddingId)
+        {
+            if (uid == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            UserWeddingGuest? existingGuestRecord = db.UserWeddingGuests
+                .FirstOrDefault(uwg => uwg.UserId == uid && uwg.WeddingId == weddingId);
+
+            if (existingGuestRecord == null)
+            {
+                UserWeddingGuest newGuestRecord = new UserWeddingGuest()
+                {
+                    WeddingId = weddingId,
+                    UserId = (int)uid
+                };
+
+                db.UserWeddingGuests.Add(newGuestRecord);
+            }
+            else
+            {
+                db.UserWeddingGuests.Remove(existingGuestRecord);
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("All");
+        }
     }
 }

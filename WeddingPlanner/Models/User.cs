@@ -14,24 +14,26 @@ namespace WeddingPlanner.Models
         public int UserId { get; set; }
 
         [Display(Name = "First Name")]
-        [Required]
+        [Required(ErrorMessage = "is required.")]
         [MinLength(2, ErrorMessage = "must be longer than 1 character.")]
         public string FirstName { get; set; } = null!;
 
         [Display(Name = "Last Name")]
-        [Required]
+        [Required(ErrorMessage = "is required.")]
         [MinLength(2, ErrorMessage = "must be longer than 1 character.")]
         public string LastName { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "is required.")]
         [EmailAddress]
         public string Email { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "is required.")]
+        [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
 
         [NotMapped]
         [Display(Name = "Confirm Password")]
+        [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "must match password.")]
         public string PasswordConfirm { get; set; } = null!;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
@@ -52,7 +54,7 @@ namespace WeddingPlanner.Models
             MUST use .Include or else nav props will be null.
         **********************************************************************/
 
-        public List<Wedding> PlannedWeddings { get; set; } = null!;
-        public List<UserWeddingGuest> UserWeddingGuests { get; set; } = null!;
+        public List<Wedding>? PlannedWeddings { get; set; }
+        public List<UserWeddingGuest>? UserWeddingGuests { get; set; }
     }
 }

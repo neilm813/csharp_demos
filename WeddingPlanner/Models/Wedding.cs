@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using static WeddingPlanner.CustomValidators;
 
 namespace WeddingPlanner.Models
 {
@@ -20,6 +21,8 @@ namespace WeddingPlanner.Models
         [Required]
         [MinLength(2, ErrorMessage = "length must be more than 1.")]
         public string WedderTwo { get; set; } = null!;
+
+        [FutureDate]
         public DateTime Date { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
@@ -34,8 +37,8 @@ namespace WeddingPlanner.Models
             MUST use .Include or else nav props will be null.
         **********************************************************************/
         public int UserId { get; set; }
-        public User Planner { get; set; } = null!;
-        public List<UserWeddingGuest> UserWeddingGuests { get; set; } = null!;
+        public User? Planner { get; set; }
+        public List<UserWeddingGuest>? UserWeddingGuests { get; set; }
 
     }
 }
