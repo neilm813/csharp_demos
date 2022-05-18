@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using static WeddingPlanner.CustomValidators;
 
 namespace WeddingPlanner.Models
@@ -13,14 +11,15 @@ namespace WeddingPlanner.Models
         public int WeddingId { get; set; }
 
         [Display(Name = "Wedder One")]
-        [Required]
+        // It's required by default because it's a non-nullable string.
+        // [Required]
         [MinLength(2, ErrorMessage = "length must be more than 1.")]
-        public string WedderOne { get; set; } = null!;
+        public string WedderOne { get; set; }
 
         [Display(Name = "Wedder Two")]
         [Required]
         [MinLength(2, ErrorMessage = "length must be more than 1.")]
-        public string WedderTwo { get; set; } = null!;
+        public string WedderTwo { get; set; }
 
         [FutureDate]
         public DateTime Date { get; set; }
