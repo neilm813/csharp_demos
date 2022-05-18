@@ -51,10 +51,10 @@ namespace WeddingPlanner.Models
 
         Navigation props:
             data type is a related model
-            MUST use .Include or else nav props will be null.
+            MUST use .Include for the data to be included (SQL join).
         **********************************************************************/
 
-        public List<Wedding>? PlannedWeddings { get; set; }
-        public List<UserWeddingGuest>? UserWeddingGuests { get; set; }
+        public List<Wedding> PlannedWeddings { get; set; } = new List<Wedding>();
+        public List<UserWeddingGuest> UserWeddingGuests { get; set; } = new List<UserWeddingGuest>();
     }
 }

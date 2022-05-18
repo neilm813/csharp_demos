@@ -10,7 +10,7 @@ namespace WeddingPlanner
     {
         public class FutureDate : ValidationAttribute
         {
-            protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+            protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
             {
                 if (value == null)
                 {

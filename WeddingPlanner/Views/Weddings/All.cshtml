@@ -6,13 +6,9 @@
 
   @foreach (Wedding wedding in Model)
   {
-    bool alreadyAttending = false;
+    bool alreadyAttending = wedding.UserWeddingGuests
+    .Any(uwg => uwg.UserId == Context.Session.GetInt32("UserId"));
 
-    if (wedding.UserWeddingGuests != null)
-    {
-      alreadyAttending = wedding.UserWeddingGuests
-      .Any(l => l.UserId == Context.Session.GetInt32("UserId"));
-    }
 
     <div class="card shadow rounded w-50 mb-3 mx-auto">
       <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
