@@ -6,8 +6,13 @@
 
   @foreach (Wedding wedding in Model)
   {
-    bool alreadyAttending = wedding.UserWeddingGuests
-    .Any(uwg => uwg.UserId == Context.Session.GetInt32("UserId"));
+    @*
+      Since we know UserWeddingGuests won't be null because it is defaulted to
+      an empty list in our model, we can use the !. null-forgiving syntax to
+      suppress 'the possible null reference' warning.
+    *@
+    bool alreadyAttending = wedding!.UserWeddingGuests
+          !.Any(uwg => uwg.UserId == Context.Session.GetInt32("UserId"));
 
 
     <div class="card shadow rounded w-50 mb-3 mx-auto">
